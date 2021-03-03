@@ -17,4 +17,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_ajoutPlat"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+
 </LinearLayout>
