@@ -43,10 +43,18 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
             @Override
             public void onClick(View v) {
                 /* Passer à l'activiter Liste des igrédients */
-
             }
         });
+
         nomPlat.setText(getItem(position).getNom());
+        nomPlat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    // Mettre à jour la base de données
+                }
+            }
+        });
         return convertView;
     }
 }
