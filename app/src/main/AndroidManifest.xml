@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanBuyAndEat">
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".Repertoire">
+        <activity android:name=".Repertoire.Repertoire">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
