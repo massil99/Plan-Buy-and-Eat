@@ -29,8 +29,10 @@ public class Repertoire extends AppCompatActivity {
         ArrayList<Plat> arrayList = new ArrayList<>();
         /* Recuperation des donnée à partir de la base de données */
         List<String> nom_plats = new LinkedList<>();
-        arrayList.add(new Plat("pizza")); // remplir l'arraylist
-        arrayList.add(new Plat("pizza")); // remplir l'arraylist
+
+        // Test
+        arrayList.add(new Plat("pizza"));
+        arrayList.add(new Plat("pizza"));
 
         PlatAdapter platAdapter = new PlatAdapter(this, R.layout.plat_item, arrayList);
         plats.setAdapter(platAdapter);

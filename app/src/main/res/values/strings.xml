@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Plan Buy and Eat</string>
     <string name="list_plats">Meal list</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="ajouter">Add</string>
 </resources>
