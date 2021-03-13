@@ -24,7 +24,7 @@ public class Ingredients extends AppCompatActivity {
         /*Ajout de la suppression d'un element avec un swipe à gauche*/
 
         Bundle extra = getIntent().getExtras();
-        int id = Integer.parseInt(extra.getString("id"));
+        int id = extra.getInt("id");
         /* Recuperation des donnée à partir de la base de données */
         Plat plat = new Plat("pizza");
 
@@ -37,13 +37,15 @@ public class Ingredients extends AppCompatActivity {
         ingredients.setAdapter(ingredientAdapter);
 
         EditText nomIng = findViewById(R.id.editview_nomIngredient);
-        Button ajoutIng = findViewById(R.id.btn_ajoutPlat);
+        Button ajoutIng = findViewById(R.id.btn_ajoutIngredient);
 
         ajoutIng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*Mettre à jout la base de données*/
                 plat.addIngredient(nomIng.getText().toString());
+                ingredientAdapter.notifyDataSetChanged();
+                nomIng.setText("");
             }
         });
     }

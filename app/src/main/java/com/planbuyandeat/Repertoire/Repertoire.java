@@ -37,14 +37,13 @@ public class Repertoire extends AppCompatActivity {
         PlatAdapter platAdapter = new PlatAdapter(this, R.layout.plat_item, arrayList);
         plats.setAdapter(platAdapter);
 
-
         FloatingActionButton fab = findViewById(R.id.btn_ajoutPlat);
         fab.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    /* Mettre à jour la  base de données */
                    arrayList.add(new Plat("pizza"));
-                   plats.setAdapter(platAdapter);
+                   platAdapter.notifyDataSetChanged();
                }
         });
     }
