@@ -8,10 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.planbuyandeat.Planning.LDCView.LDCItems;
+import com.planbuyandeat.Planning.Settings.Settings;
 import com.planbuyandeat.R;
 
 import org.naishadhparmar.zcustomcalendar.CustomCalendar;
@@ -27,7 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Planning extends AppCompatActivity {
-    CustomCalendar customCalendar;
+    private CustomCalendar customCalendar;
+    private ListView planning;
+    private Button settings;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -86,7 +91,7 @@ public class Planning extends AppCompatActivity {
             }
         });
 
-        ListView planning = findViewById(R.id.list_plannig);
+        planning = findViewById(R.id.list_plannig);
         /* TODO Recuperation des donnée à partir de la base de données */
 
         //test
@@ -115,6 +120,18 @@ public class Planning extends AppCompatActivity {
                 }
             }
         });
+
+
+        settings = findViewById(R.id.btn_plannigSettings);
+        settings.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), Settings.class);
+                startActivity(i);
+            }
+        });
+
+
     }
 
     private Property createProperty(int resourceId, int textResouceId){

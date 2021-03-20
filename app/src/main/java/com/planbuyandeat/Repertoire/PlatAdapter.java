@@ -43,7 +43,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = 0; // id dans la base de données
+                int id = 0; // TODO id dans la base de données
                 Intent i = new Intent(mContext, Ingredients.class);
                 i.putExtra("id", id);
                 mContext.startActivity(i);
@@ -55,7 +55,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    /* Mettre à jour la base de données */
+                    /* TODO Mettre à jour la base de données */
                 }
             }
         });

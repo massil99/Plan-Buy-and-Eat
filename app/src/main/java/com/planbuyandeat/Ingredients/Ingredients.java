@@ -14,13 +14,16 @@ import com.planbuyandeat.R;
 import com.planbuyandeat.Repertoire.Plat;
 
 public class Ingredients extends AppCompatActivity {
+    private ListView ingredients;
+    private EditText nomIng;
+    private Button ajoutIng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
 
-        ListView ingredients = findViewById(R.id.list_ingredients);
+        ingredients = findViewById(R.id.list_ingredients);
 
         /* TODO Ajout de la suppression d'un element avec un swipe à gauche*/
 
@@ -39,8 +42,8 @@ public class Ingredients extends AppCompatActivity {
 
         LinearLayout ajoutIngL = findViewById(R.id.saisieIngredient);
 
-        EditText nomIng = findViewById(R.id.editview_nomIngredient);
-        Button ajoutIng = findViewById(R.id.btn_ajoutIngredient);
+        nomIng = findViewById(R.id.editview_nomIngredient);
+        ajoutIng = findViewById(R.id.btn_ajoutIngredient);
 
 
         ajoutIng.setOnClickListener(new View.OnClickListener() {

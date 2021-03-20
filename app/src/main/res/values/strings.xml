@@ -6,4 +6,8 @@
     <string name="parametre">Settings</string>
     <string name="generer">Generate</string>
     <string name="shopping">Shopping lists</string>
+    <string name="periode_de_shopping">Shopping periode length</string>
+    <string name="date_de_debut">Starting Date</string>
+    <string name="modifer_date">Change</string>
+    <string name="nb_plats_pjour">Numbers of meals per day</string>
 </resources>

@@ -19,15 +19,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Repertoire extends AppCompatActivity {
+    private ListView plats;
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repertoire);
 
-        ListView plats = findViewById(R.id.plats);
+        plats = findViewById(R.id.plats);
 
         ArrayList<Plat> arrayList = new ArrayList<>();
-        /* Recuperation des donnée à partir de la base de données */
+        /* TODO Recuperation des donnée à partir de la base de données */
         List<String> nom_plats = new LinkedList<>();
 
         // Test
@@ -37,11 +40,11 @@ public class Repertoire extends AppCompatActivity {
         PlatAdapter platAdapter = new PlatAdapter(this, R.layout.plat_item, arrayList);
         plats.setAdapter(platAdapter);
 
-        FloatingActionButton fab = findViewById(R.id.btn_ajoutPlat);
+        fab = findViewById(R.id.btn_ajoutPlat);
         fab.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   /*Mettre à jour la  base de données */
+                   /* TODO Mettre à jour la  base de données */
                    arrayList.add(new Plat(""));
                    platAdapter.notifyDataSetChanged();
                }
