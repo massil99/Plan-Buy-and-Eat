@@ -43,7 +43,6 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* Passer à l'activiter Liste des igrédients */
                 int id = 0; // id dans la base de données
                 Intent i = new Intent(mContext, Ingredients.class);
                 i.putExtra("id", id);

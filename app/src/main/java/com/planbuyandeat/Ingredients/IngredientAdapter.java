@@ -32,9 +32,6 @@ public class IngredientAdapter extends ArrayAdapter<String> {
 
         convertView = layoutInflater.inflate(mRessource, parent, false);
 
-        TextView num = convertView.findViewById(R.id.text_numeroIng);
-        num.setText(String.valueOf(position));
-
         TextView nomIng = convertView.findViewById(R.id.text_nomIng);
         nomIng.setText(getItem(position));
 

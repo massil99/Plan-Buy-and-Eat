@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.planbuyandeat.Ingredients.IngredientAdapter;
@@ -21,11 +22,11 @@ public class Ingredients extends AppCompatActivity {
 
         ListView ingredients = findViewById(R.id.list_ingredients);
 
-        /*Ajout de la suppression d'un element avec un swipe à gauche*/
+        /* TODO Ajout de la suppression d'un element avec un swipe à gauche*/
 
         Bundle extra = getIntent().getExtras();
         int id = extra.getInt("id");
-        /* Recuperation des donnée à partir de la base de données */
+        /* TODO Recuperation des donnée à partir de la base de données */
         Plat plat = new Plat("pizza");
 
         //Test
@@ -36,8 +37,11 @@ public class Ingredients extends AppCompatActivity {
                 new IngredientAdapter(this, R.layout.ingredient_item, plat.getIngredients());
         ingredients.setAdapter(ingredientAdapter);
 
+        LinearLayout ajoutIngL = findViewById(R.id.saisieIngredient);
+
         EditText nomIng = findViewById(R.id.editview_nomIngredient);
         Button ajoutIng = findViewById(R.id.btn_ajoutIngredient);
+
 
         ajoutIng.setOnClickListener(new View.OnClickListener() {
             @Override

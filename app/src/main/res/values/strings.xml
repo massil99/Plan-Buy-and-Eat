@@ -3,4 +3,7 @@
     <string name="list_plats">Meal list</string>
     <string name="ingredients">Ingredients</string>
     <string name="ajouter">Add</string>
+    <string name="parametre">Settings</string>
+    <string name="generer">Generate</string>
+    <string name="shopping">Shopping lists</string>
 </resources>

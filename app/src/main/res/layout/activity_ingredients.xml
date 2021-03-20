@@ -14,7 +14,8 @@
         android:id="@+id/list_ingredients"
         android:layout_below="@id/text_nomPlat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@id/saisieIngredient"/>
 
     <LinearLayout
         android:id="@+id/saisieIngredient"

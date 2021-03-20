@@ -4,4 +4,7 @@
     <string name="list_plats">Liste des plats</string>
     <string name="ingredients">Ingrédients</string>
     <string name="ajouter">Ajouter</string>
+    <string name="parametre">Paramétres</string>
+    <string name="generer">Generer</string>
+    <string name="shopping">Listes des coures</string>
 </resources>

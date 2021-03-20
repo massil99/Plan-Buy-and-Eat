@@ -41,8 +41,8 @@ public class Repertoire extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   /* Mettre à jour la  base de données */
-                   arrayList.add(new Plat("pizza"));
+                   /*Mettre à jour la  base de données */
+                   arrayList.add(new Plat(""));
                    platAdapter.notifyDataSetChanged();
                }
         });
