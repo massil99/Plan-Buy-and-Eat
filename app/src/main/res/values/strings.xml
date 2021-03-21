@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Plan Buy and Eat</string>
+    <string name="list_plats">Meal list</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="ajouter">Add</string>
+    <string name="parametre">Settings</string>
+    <string name="generer">Generate</string>
+    <string name="shopping">Shopping lists</string>
+    <string name="periode_de_shopping">Shopping periode length</string>
+    <string name="date_de_debut">Starting Date</string>
+    <string name="modifer_date">Change</string>
+    <string name="nb_plats_pjour">Numbers of meals per day</string>
+    <string name="login">Login</string>
+    <string name="Signin">Sign In</string>
+    <string name="Signup">Sign Up</string>
+    <string name="Map">Map</string>
+    <string name="nomUtilisateur">Username</string>
+    <string name="mdp">Password</string>
+    <string name="nom">Last Name</string>
+    <string name="prenom">First Name</string>
+    <string name="mdpx">Confirm Passwrod</string>
+    <string name="wrong_cred">Incorrect username or password</string>
+    <string name="register">Register</string>
+    <string name="empty_fields">Some fields are empty</string>
+    <string name="passwd_not_matching">Password confirmation is wrong</string>
 </resources>
