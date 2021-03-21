@@ -11,4 +11,17 @@
     <string name="date_de_debut">Date de début</string>
     <string name="modifer_date">Modifier</string>
     <string name="nb_plats_pjour">Nombre de plats par jour</string>
+    <string name="login">Connexionr</string>
+    <string name="Signin">Se connecter</string>
+    <string name="Signup">S\'inscrire</string>
+    <string name="Map">Carte</string>
+    <string name="nomUtilisateur">Nom d\'utilisateur</string>
+    <string name="mdp">Mot de passe</string>
+    <string name="nom">Nom</string>
+    <string name="prenom">Prénom</string>
+    <string name="mdpx">Confirmation du mot de passe</string>
+    <string name="wrong_cred">Nom d\'utilisateur ou mot de passe incorrect</string>
+    <string name="register">S\'inscrire</string>
+    <string name="empty_fields">Champs vides</string>
+    <string name="passwd_not_matching">La confirmation du mot de passe est incorrecte</string>
 </resources>

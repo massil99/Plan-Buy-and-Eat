@@ -9,17 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanBuyAndEat">
-        <activity android:name=".Planning.Settings.Settings">
+        <activity android:name=".Identification.Signup"></activity>
+        <activity android:name=".Identification.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Planning.Settings.Settings" />
         <activity android:name=".Planning.LDCView.LDCItems" />
-        <activity android:name=".Planning.Planning"/>
+        <activity android:name=".Planning.Planning" />
         <activity android:name=".Ingredients.Ingredients" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".Repertoire.Repertoire" />
     </application>
 
