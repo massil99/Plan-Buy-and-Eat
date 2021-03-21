@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanBuyAndEat">
-        <activity android:name=".Identification.Signup"></activity>
+        <activity android:name=".BottomNavigationBar"></activity>
+        <activity android:name=".Identification.Signup" />
         <activity android:name=".Identification.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +21,7 @@
         <activity android:name=".Planning.Settings.Settings" />
         <activity android:name=".Planning.LDCView.LDCItems" />
         <activity android:name=".Planning.Planning" />
-        <activity android:name=".Ingredients.Ingredients" />
+        <activity android:name=".Repertoire.Ingredients.Ingredients" />
         <activity android:name=".Repertoire.Repertoire" />
     </application>
 

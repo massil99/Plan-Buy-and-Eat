@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.R;
 
@@ -78,7 +80,7 @@ public class Login extends AppCompatActivity {
                 // connexion réussit
                 if(true /*success*/){
 
-                    Intent i = new Intent(getApplicationContext(), Planning.class);
+                    Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
                     /* TODO Simulate a session*/
 
                     // Redirection verss l'activité Planning
@@ -93,7 +95,7 @@ public class Login extends AppCompatActivity {
         singupB = findViewById(R.id.btn_Signup);
         /**
          * Redirection vers l'acitvité Signup en cliquant sur le boutton
-         * sinupB   
+         * sinupB
          */
         singupB.setOnClickListener(new View.OnClickListener() {
             @Override

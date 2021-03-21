@@ -23,4 +23,6 @@
     <string name="register">Register</string>
     <string name="empty_fields">Some fields are empty</string>
     <string name="passwd_not_matching">Password confirmation is wrong</string>
+    <string name="planning">Planning</string>
+    <string name="repertoire">Meal list</string>
 </resources>
