@@ -26,5 +26,5 @@
     <string name="passwd_not_matching">La confirmation du mot de passe est incorrecte</string>
     <string name="planning">Plannig</string>
     <string name="repertoire">Répertoire</string>
-
+    <string name="compte">Compte</string>
 </resources>

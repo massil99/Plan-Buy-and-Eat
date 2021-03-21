@@ -77,6 +77,15 @@ public class Planning extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_planning, container, false);
+        super.onViewCreated(view, savedInstanceState);
+        /**
+         * Récuperation des vue du layout du fragemnt
+         */
+        customCalendar = view.findViewById(R.id.calendar_planning);
+        planning = view.findViewById(R.id.list_plannig);
+        settings = view.findViewById(R.id.btn_plannigSettings);
+
         /**
          * Création du dictionnaire des dropritées du calendrier, le dictionnaire associe
          * à chaque propriéte un nom et un propriéte permet de définir le visuel de la carte
@@ -87,32 +96,19 @@ public class Planning extends Fragment {
                 createProperty(R.layout.default_property, R.id.text_defaultText));
         descHashMap.put("current",
                 createProperty(R.layout.current_property, R.id.text_currentText));
-
         /* TODO Remplacer les proprieté ci-dessus par de vraies proprietées */
-
-        dateHashmap = new HashMap<>();
-        calendar = Calendar.getInstance();
-
-        dateHashmap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
-
-
-        return inflater.inflate(R.layout.activity_planning, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        /**
-         * Récuperation des vue du layout du fragemnt
-         */
-        customCalendar = getActivity().findViewById(R.id.calendar_planning);
-        planning = getActivity().findViewById(R.id.list_plannig);
-        settings = getActivity().findViewById(R.id.btn_plannigSettings);
 
         /**
          * Definir le dictionnaire des propriétées du CalendarView
          */
         customCalendar.setMapDescToProp(descHashMap);
+
+        /**
+         * Assoctation des jours à leurs propiéte
+         */
+        dateHashmap = new HashMap<>();
+        calendar = Calendar.getInstance();
+        dateHashmap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
 
         /**
          * Définir le dictionnaire des association entre les jours du mois
@@ -161,7 +157,7 @@ public class Planning extends Fragment {
 
                 /* TODO Afficher les plat on cliquant sur une date */
                 if(desc != null)
-                    Toast.makeText(getActivity().getApplicationContext(), (String)desc, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), (String)desc, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -183,7 +179,7 @@ public class Planning extends Fragment {
          * un objet ListeDeCourses par ligne
          */
         ListeDeCoursesAdapter listdDeCoursesAdapter =
-                new ListeDeCoursesAdapter(getActivity(), R.layout.list_de_cours_item, listesDeCourses);
+                new ListeDeCoursesAdapter(view.getContext(), R.layout.list_de_cours_item, listesDeCourses);
 
         /**
          * Définir l'ArrayAdapteur de notre liste
@@ -199,7 +195,7 @@ public class Planning extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListeDeCourses selectedLDC = listesDeCourses.get(position);
                 if(selectedLDC != null){
-                    Intent i = new Intent(getActivity().getApplicationContext(), LDCItems.class);
+                    Intent i = new Intent(view.getContext(), LDCItems.class);
                     i.putExtra("id", selectedLDC.getId()); // Passage de l'ID de la liste selctionnée
                     startActivity(i);
                 }
@@ -212,10 +208,12 @@ public class Planning extends Fragment {
         settings.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity().getApplicationContext(), Settings.class);
+                Intent i = new Intent(view.getContext(), Settings.class);
                 startActivity(i);
             }
         });
+
+        return view;
     }
 
     /**

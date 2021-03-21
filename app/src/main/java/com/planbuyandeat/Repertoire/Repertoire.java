@@ -40,7 +40,10 @@ public class Repertoire extends Fragment {
     private FloatingActionButton fab;
 
     /**
-     * Chargment du layout de l'activité
+     * A la creation du fragment, les données sur les plat deja enregistrés sont récupérées à
+     * partir de la base de données, puis une listeview est créée en utilisant ces données
+     * représenttant un plat par ligne avec un button qui permet de passer à l'acitivité
+     * ingredients
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -49,32 +52,18 @@ public class Repertoire extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_repertoire, container, false);
-    }
-
-    /**
-     * A la creation du fragment, les données sur les plat deja enregistrés sont récupérées à
-     * partir de la base de données, puis une listeview est créée en utilisant ces données
-     * représenttant un plat par ligne avec un button qui permet de passer à l'acitivité
-     * ingredients
-     * @param view
-     * @param savedInstanceState
-     */
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.activity_repertoire, container, false);
 
         /**
          * Récupération de la listview des palts du répertoire
          */
-        plats = getActivity().findViewById(R.id.plats);
+        plats = view.findViewById(R.id.plats);
 
         /**
          * Récuperation de données se trouvant dans la base de données
          */
         ArrayList<Plat> arrayList = new ArrayList<>();
         /* TODO Recuperation des donnée à partir de la base de données */
-        List<String> nom_plats = new LinkedList<>();
 
         // Test
         arrayList.add(new Plat("pizza"));
@@ -94,7 +83,7 @@ public class Repertoire extends Fragment {
         /**
          * Récuperation du button d'ajout de plat à la list
          */
-        fab = getActivity().findViewById(R.id.btn_ajoutPlat);
+        fab = view.findViewById(R.id.btn_ajoutPlat);
         /**
          * En cliquant sur fab on ajout un plat dans PlatAdapteur et notifie la liste que
          * les données on était mises à jour, une modification de la base de données est faite
@@ -108,5 +97,7 @@ public class Repertoire extends Fragment {
                    /* TODO Mettre à jour la  base de données */
                }
         });
+
+        return view;
     }
 }

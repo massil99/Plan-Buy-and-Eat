@@ -47,6 +47,9 @@ public class BottomNavigationBar extends AppCompatActivity {
                     case R.id.nav_repertoire:
                         chosenFragment = new Repertoire();
                         break;
+                    case R.id.nav_compte:
+                        chosenFragment = new Compte();
+                        break;
                     default:
                         chosenFragment = new Planning();
                         break;

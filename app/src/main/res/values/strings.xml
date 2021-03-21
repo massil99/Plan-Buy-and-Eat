@@ -25,4 +25,5 @@
     <string name="passwd_not_matching">Password confirmation is wrong</string>
     <string name="planning">Planning</string>
     <string name="repertoire">Meal list</string>
+    <string name="compte">Account</string>
 </resources>

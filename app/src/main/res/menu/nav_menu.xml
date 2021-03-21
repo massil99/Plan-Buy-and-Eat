@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/nav_planning"
-        android:title="@string/planning"
-        android:icon="@drawable/ic_planning"/>
+
+    <item android:id="@+id/nav_compte"
+        android:title="@string/compte"
+        android:icon="@drawable/ic_account"
+        />
     <item
         android:id="@+id/nav_repertoire"
         android:title="@string/repertoire"
         android:icon="@drawable/ic_repertoire"/>
+    <item
+        android:id="@+id/nav_planning"
+        android:title="@string/planning"
+        android:icon="@drawable/ic_planning"/>
     <item
         android:id="@+id/nav_map"
         android:title="@string/Map"
