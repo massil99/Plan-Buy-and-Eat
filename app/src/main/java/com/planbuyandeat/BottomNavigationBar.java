@@ -12,14 +12,30 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.Repertoire.Repertoire;
 
+/**
+ * Acitivité ayant un Bottom naviagation view et un fragment qui change entre les activité
+ * de l'applicaiton
+ */
 public class BottomNavigationBar extends AppCompatActivity {
+    /**
+     * La bar de navigation
+     */
     private BottomNavigationView bnv;
 
+    /**
+     * Chargment d'un fragement par défaut à la création et gestion de l'évément de click
+     * sur le botttomNaviationBar
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation_bar);
         bnv = findViewById(R.id.BottomNavigationView);
+
+        /**
+         * En choisissant un item de la bar un fragment est afficher en focntio de cette item
+         */
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
