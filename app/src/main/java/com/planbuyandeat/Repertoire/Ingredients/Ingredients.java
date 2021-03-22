@@ -54,7 +54,8 @@ public class Ingredients extends AppCompatActivity {
         /* TODO Recuperation des donnée à partir de la base de données */
 
         //Test
-        Plat plat = new Plat("pizza");
+        Plat plat = new Plat();
+        plat.setNom("pizza");
         plat.addIngredient("Tomate");
         plat.addIngredient("Fromage");
 
