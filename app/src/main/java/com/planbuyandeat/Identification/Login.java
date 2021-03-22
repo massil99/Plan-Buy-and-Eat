@@ -61,6 +61,13 @@ public class Login extends AppCompatActivity {
      * Fichier de préférence utilisé comme session
      */
     public static String MySESSION = "session";
+    /**
+     * Les clés des valeurs à stocker dans la session
+     */
+    public static String USERID = "userid";
+    public static String USERNAME = "username";
+    public static String MDP = "mdp";
+
     private SharedPreferences userSession;
     /**
      * A la creataion de l'acitivité ses composant sont récupérés
@@ -104,10 +111,10 @@ public class Login extends AppCompatActivity {
                          * Creation d'une session
                          */
                         SharedPreferences.Editor editor = userSession.edit();
-                        editor.putString("username", res.getUsername());
-                        editor.putString("mdp", res.getMdp());
-                        editor.putLong("id", res.getId());
-
+                        editor.putString(USERNAME, res.getUsername());
+                        editor.putString(MDP, res.getMdp());
+                        editor.putLong(USERID, res.getId());
+                        editor.apply();
                         Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
                         // Terminer l'activité actuelle
                         finish();

@@ -54,7 +54,7 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
     }
 
     /**
-     * Creser un tilisateur dans la base de de données
+     * Créer un utilisateur dans la base de de données
      * @param o objet utilsiateur contenant les infomation à stocker
      * @return l'utilisteur avec son id dans la base de de données
      */
@@ -69,6 +69,9 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
         values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
         values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
 
+        /**
+         * Récuperation de l'id du tuple inseré
+         */
         long insertId = database.insert(DBHelper.TABLE_USERS, null,
                 values);
         Cursor cursor = database.query(DBHelper.TABLE_USERS,
@@ -90,10 +93,45 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
     @Override
     public void delete(Utilisateur o) {
         long id = o.getId();
-        System.out.println("Comment deleted with id: " + id);
         database.delete(DBHelper.TABLE_USERS, DBHelper.COLUMN_USERS_ID
                 + " = " + id, null);
     }
+
+    /**
+     * Mettre à jour les information de l'utilisateur
+     */
+
+    @Override
+    public void update(Utilisateur o) {
+        long id = o.getId();
+
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_USERS_NOM, o.getNom());
+        values.put(DBHelper.COLUMN_USERS_PRENOM, o.getPrenom());
+        values.put(DBHelper.COLUMN_USERS_USERNAME, o.getUsername());
+        values.put(DBHelper.COLUMN_USERS_MDP, o.getMdp());
+        values.put(DBHelper.COLUMN_USERS_NBPlatJours, o.getNbPlatjour());
+        values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
+        values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
+
+        database.update(DBHelper.TABLE_USERS, values, DBHelper.COLUMN_USERS_ID + " = " + id, null);
+    }
+
+    /**
+     * Récuperer un utilisateur de la base de données
+     * @return l'utilisateur
+     */
+    public Utilisateur get(long id) {
+        Cursor cursor = database.query(DBHelper.TABLE_USERS,
+                allColumns, DBHelper.COLUMN_USERS_ID +" = "+ id, null, null, null, null);
+
+        cursor.moveToFirst();
+        Utilisateur user = cursorToUser(cursor);
+        cursor.close();
+
+        return user;
+    }
+
 
     /**
      * Récuperer tous les utilisateur de la base de données

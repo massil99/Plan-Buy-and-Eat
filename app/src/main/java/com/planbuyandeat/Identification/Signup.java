@@ -58,7 +58,10 @@ public class Signup extends AppCompatActivity {
      */
     private TextView signupError;
 
-     private SharedPreferences userSession;
+    /**
+     * Urilisation des fichier de préferences comme session d'utilisateur
+     */
+    private SharedPreferences userSession;
 
     /**
      * A la creation de l'acitivité toutes les vues de l'interface graphique
@@ -116,9 +119,10 @@ public class Signup extends AppCompatActivity {
                          * Creation d'une session
                          */
                         SharedPreferences.Editor editor = userSession.edit();
-                        editor.putString("username", res.getUsername());
-                        editor.putString("mdp", res.getMdp());
-                        editor.putLong("id", res.getId());
+                        editor.putString(Login.USERNAME, res.getUsername());
+                        editor.putString(Login.MDP, res.getMdp());
+                        editor.putLong(Login.USERID, res.getId());
+                        editor.apply();
 
                         /**
                          * Passer à l'acitvité principale

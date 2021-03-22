@@ -14,8 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.planbuyandeat.Models.Plat;
-import com.planbuyandeat.Models.Ingredients;
+import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.Plat;
+import com.planbuyandeat.SQLite.Models.Ingredients;
 import com.planbuyandeat.R;
 
 import java.util.ArrayList;
@@ -36,6 +37,11 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
     private int mRessource;
 
     /**
+     * Gestionaire des plats
+     */
+    private PlatsSQLiteDAO platdao;
+
+    /**
      * Initialisation des champ à la création de l'adatptateur
      * @param context
      * @param resource
@@ -45,6 +51,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         super(context, resource, objects);
         this.mContext = context;
         this.mRessource = resource;
+        platdao = new PlatsSQLiteDAO(getContext());
     }
 
     /**
@@ -60,6 +67,11 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         /**
+         * Le plat à la postion 'postion'
+         */
+        Plat plat = getItem(position);
+
+        /**
          * Récuperation de la ressource d'un ligne de la liste
          */
         convertView = layoutInflater.inflate(mRessource, parent, false);
@@ -67,7 +79,6 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         /**
          * Récuperation des vues de la ressource representant une ligne de la liste
          */
-
         /**
          * Numéro du plat
          */
@@ -104,7 +115,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         /**
          * Définition du nom du plat stocké dans l'objet plat
          */
-        nomPlat.setText(getItem(position).getNom());
+        nomPlat.setText(plat.getNom());
 
         /**
          * Enregistrement du nouveau nom du plat apres que cette vu aie perdu le focus
@@ -114,7 +125,10 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    /* TODO Mettre à jour la base de données */
+                    platdao.open();
+                    plat.setNom(nomPlat.getText().toString());
+                    platdao.update(plat);
+                    platdao.close();
                 }
             }
         });

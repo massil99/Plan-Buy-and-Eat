@@ -4,17 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.planbuyandeat.Models.Plat;
+import com.planbuyandeat.Identification.Login;
+import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.Plat;
 import com.planbuyandeat.R;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Activité permetant de gérer le répertoire des plats par l'utilisateur
@@ -31,6 +38,11 @@ public class Repertoire extends Fragment {
      * Button qui permet d'ajouter un plat
      */
     private FloatingActionButton fab;
+
+    /**
+     * Urilisation des fichier de préferences comme session d'utilisateur
+     */
+    private SharedPreferences userSession;
 
     /**
      * A la creation du fragment, les données sur les plat deja enregistrés sont récupérées à
@@ -53,14 +65,22 @@ public class Repertoire extends Fragment {
         plats = view.findViewById(R.id.plats);
 
         /**
+         * Récuperation des infomation de la session
+         */
+        Utilisateur user = new Utilisateur();
+
+        userSession = getActivity().getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
+        user.setId(userSession.getLong(Login.USERID, -1));
+        user.setUsername(userSession.getString(Login.USERNAME, ""));
+        user.setMdp(userSession.getString(Login.MDP, ""));
+
+        /**
          * Récuperation de données se trouvant dans la base de données
          */
-        ArrayList<Plat> arrayList = new ArrayList<>();
-        /* TODO Recuperation des donnée à partir de la base de données */
-
-        // Test
-        arrayList.add(new Plat("pizza"));
-        arrayList.add(new Plat("pizza"));
+        PlatsSQLiteDAO platdao = new PlatsSQLiteDAO(getContext());
+        platdao.open();
+        ArrayList<Plat> arrayList = (ArrayList<Plat>) platdao.getAllUserPlats(user);
+        platdao.close();
 
         /**
          * Instanciation de l'ArrayAdapteur permetant d'afficher un plat,
@@ -72,6 +92,7 @@ public class Repertoire extends Fragment {
          * Définir PlatAdapteur comme l'adaptateur de la liste des plats
          */
         plats.setAdapter(platAdapter);
+
 
         /**
          * Récuperation du button d'ajout de plat à la list
@@ -85,9 +106,20 @@ public class Repertoire extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   arrayList.add(new Plat(""));
+                   Plat plat = new Plat();
+                   plat.setNom("");
+                   plat.setAdderid(user.getId());
+
+                   platdao.open();
+                   Plat res = platdao.create(plat);
+                   Log.d("repertoire", String.valueOf(res.getId()) + " " +
+                           res.getNom() + " " +
+                           String.valueOf(res.getAdderid()) + " "+
+                           String.valueOf(user.getId()));
+
+                   arrayList.add(res);
                    platAdapter.notifyDataSetChanged();
-                   /* TODO Mettre à jour la  base de données */
+                   platdao.close();
                }
         });
 

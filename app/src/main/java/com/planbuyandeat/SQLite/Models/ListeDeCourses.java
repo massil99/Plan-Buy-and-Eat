@@ -1,4 +1,4 @@
-package com.planbuyandeat.Models;
+package com.planbuyandeat.SQLite.Models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

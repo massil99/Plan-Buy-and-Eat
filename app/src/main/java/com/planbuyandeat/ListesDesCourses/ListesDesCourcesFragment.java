@@ -12,8 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.planbuyandeat.ListesDesCourses.LDCView.LDCItems;
-import com.planbuyandeat.Models.ListeDeCourses;
-import com.planbuyandeat.ListesDesCourses.ListeDeCoursesAdapter;
+import com.planbuyandeat.SQLite.Models.ListeDeCourses;
 import com.planbuyandeat.R;
 
 import java.util.ArrayList;

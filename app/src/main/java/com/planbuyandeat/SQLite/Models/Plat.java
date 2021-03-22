@@ -1,4 +1,4 @@
-package com.planbuyandeat.Models;
+package com.planbuyandeat.SQLite.Models;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +8,16 @@ import java.util.List;
  */
 public class Plat {
     /**
+     * L'identifiant du plat dans la base de données
+     */
+    private long id;
+
+    /**
+     * L'identifiant de l'utilisateur qui l'a ajouté
+     */
+    private long adderid;
+
+    /**
      * Nom du plat
      */
     private String nom;
@@ -16,6 +26,9 @@ public class Plat {
      * La liste des intgrédient du plat
      */
     private List<String> ingredients;
+
+    public Plat(){
+    }
 
     /**
      * Création du plat et initilisation de la liste des igrédients
@@ -42,8 +55,23 @@ public class Plat {
         this.ingredients.remove(ing);
     }
 
-
     /** Getters et Setters **/
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getAdderid() {
+        return adderid;
+    }
+
+    public void setAdderid(long adderid) {
+        this.adderid = adderid;
+    }
+
     public List<String> getIngredients(){
         return this.ingredients;
     }

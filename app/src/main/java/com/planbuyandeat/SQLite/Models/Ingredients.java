@@ -1,4 +1,4 @@
-package com.planbuyandeat.Models;
+package com.planbuyandeat.SQLite.Models;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.planbuyandeat.R;
-import com.planbuyandeat.Models.Plat;
 import com.planbuyandeat.Repertoire.Ingredients.IngredientAdapter;
 
 import java.util.Objects;

@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.planbuyandeat.Compte.Compte;
 import com.planbuyandeat.ListesDesCourses.LDCView.LDCItems;
-import com.planbuyandeat.Models.ListeDeCourses;
+import com.planbuyandeat.SQLite.Models.ListeDeCourses;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.Repertoire.Repertoire;
 

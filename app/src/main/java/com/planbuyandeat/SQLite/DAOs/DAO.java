@@ -29,8 +29,10 @@ public interface DAO <T> {
     /**
      * Supprimer un tuple de la base de donées
      */
-    void delete(T o);
 
+    void update(T o);
+
+    void delete(T o);
     /**
      * Recupere tous les tuple de la table
      * @return la lites des tupes

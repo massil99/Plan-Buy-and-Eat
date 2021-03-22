@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.planbuyandeat.Models.ListeDeCourses;
+import com.planbuyandeat.SQLite.Models.ListeDeCourses;
 import com.planbuyandeat.R;
 
 import java.text.SimpleDateFormat;
