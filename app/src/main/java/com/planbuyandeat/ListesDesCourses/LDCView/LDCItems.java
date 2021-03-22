@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.planbuyandeat.R;
 
@@ -20,6 +21,11 @@ public class LDCItems extends AppCompatActivity {
      */
     private ListView ldcItems;
 
+    /**
+     * Date prévu pour faire les courses
+     */
+    private TextView dateLDC;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,7 @@ public class LDCItems extends AppCompatActivity {
         /* TODO Récupérer les information de la base de données */
 
         //test
+        String date = "21/02/2021";
         List<String> items = new ArrayList<>();
         items.add("formage");
         items.add("Tomate");
@@ -44,5 +51,11 @@ public class LDCItems extends AppCompatActivity {
         ArrayAdapter<String> ad = new ArrayAdapter<>(ldcItems.getContext(), R.layout.ldc_item, R.id.text_nomItem);
         ad.addAll(items);
         ldcItems.setAdapter(ad);
+
+        /**
+         * Afficher la date
+         */
+        dateLDC = findViewById(R.id.text_dateLDC);
+        dateLDC.setText(date);
     }
 }

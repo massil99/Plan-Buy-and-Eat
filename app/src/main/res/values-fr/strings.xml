@@ -41,4 +41,5 @@
     <string name="changeInfoDesc">Change vos informations personnelles comme votre nom ou nom d\'utilisateur</string>
     <string name="changePassDesc">Remplacer votre mot de passe acturel</string>
     <string name="logoutDesc">Déconnecter votre compte</string>
+    <string name="liste_du">Liste du </string>
 </resources>

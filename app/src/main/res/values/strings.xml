@@ -40,4 +40,5 @@
     <string name="changeInfoDesc">Change your personnal inforamtion such as Frstname and username</string>
     <string name="changePassDesc">Replace yout current password</string>
     <string name="logoutDesc">Disconnect your accout</string>
+    <string name="liste_du">List on</string>
 </resources>
