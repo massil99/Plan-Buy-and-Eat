@@ -2,6 +2,7 @@ package com.planbuyandeat.Identification;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,8 +15,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.R;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 import java.security.PublicKey;
+import java.util.prefs.Preferences;
 
 /**
  * Activity permetant de s'identifier à l'application ou créer un compte
@@ -75,8 +79,10 @@ public class Login extends AppCompatActivity {
         loginB = findViewById(R.id.btn_Signin);
         loginError = findViewById(R.id.text_login_error);
         username = findViewById(R.id.editview_nomUtilisateur);
-        password = findViewById(R.id.editview_prenom);
+        password = findViewById(R.id.editview_mdp);
 
+        UsersSQLiteDAO userdao = new UsersSQLiteDAO(this);
+        userSession = getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
 
         /**
          * Validation des données de connxeion dans le OnclickListener du boutton
@@ -85,22 +91,36 @@ public class Login extends AppCompatActivity {
         loginB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* TODO Check credentials */
+                userdao.open();
+                if(!username.getText().toString().equals("") &&
+                    !password.getText().toString().equals("")){
+                    Utilisateur user = new Utilisateur();
+                    user.setUsername(username.getText().toString());
+                    user.hasAndSetMdp(password.getText().toString());
+                    Utilisateur res = null;
+                    // teste de connexion
+                    if((res = userdao.checkCredentials(user)) != null){
+                        /**
+                         * Creation d'une session
+                         */
+                        SharedPreferences.Editor editor = userSession.edit();
+                        editor.putString("username", res.getUsername());
+                        editor.putString("mdp", res.getMdp());
+                        editor.putLong("id", res.getId());
 
-                // connexion réussit
-                if(true /*success*/){
-
-                    Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
-                    /* TODO Simulate a session*/
-
-                    // Terminer l'activité actuelle
-                    finish();
-                    // Redirection verss l'activité Répertoire$
-                    startActivity(i);
-                }else{
-                    // connexion échouée
-                    loginError.setText(R.string.wrong_cred);
+                        Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
+                        // Terminer l'activité actuelle
+                        finish();
+                        // Redirection verss l'activité Répertoire$
+                        startActivity(i);
+                    }else {
+                        // connexion échouée
+                        loginError.setText(R.string.wrong_cred);
+                    }
+                }else {
+                    loginError.setText(R.string.empty_fields);
                 }
+                userdao.close();
             }
         });
 

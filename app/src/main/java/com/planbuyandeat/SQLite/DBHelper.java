@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public final static String TABLE_USERS = "users";
     public final static String COLUMN_USERS_ID = "id";
     public final static String COLUMN_USERS_USERNAME = "username";
-    public final static String COLUMN_USERS_MDP = "MSDP";
+    public final static String COLUMN_USERS_MDP = "mdp";
     public final static String COLUMN_USERS_NOM = "nom";
     public final static String COLUMN_USERS_PRENOM = "prenom";
     public final static String COLUMN_USERS_NBPlatJours = "nbPlatJour";
@@ -54,7 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * TABLE PlatJour: associe un plat à une date
      */
-    public final static String TABLE_PLATJOUR = "ingredients";
+    public final static String TABLE_PLATJOUR = "platJour";
     public final static String COLUMN_PLATJOUR_DATE = "date";
     public final static String COLUMN_PLATJOUR_PLATID = "platid";
 

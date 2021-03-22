@@ -3,13 +3,16 @@ package com.planbuyandeat.Identification;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.R;
 import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
@@ -106,11 +109,23 @@ public class Signup extends AppCompatActivity {
                          * Creation d'un utilisateur dans la base de données
                          */
                         userdao.open();
-                        userdao.create(user);
+                        Utilisateur res = userdao.create(user);
                         userdao.close();
 
-                        userSession
+                        /**
+                         * Creation d'une session
+                         */
+                        SharedPreferences.Editor editor = userSession.edit();
+                        editor.putString("username", res.getUsername());
+                        editor.putString("mdp", res.getMdp());
+                        editor.putLong("id", res.getId());
 
+                        /**
+                         * Passer à l'acitvité principale
+                         */
+                        Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
+                        finish();
+                        startActivity(i);
                     }else
                         // Afficher un message d'erreur [Confirmation incorrect]
                         signupError.setText(R.string.passwd_not_matching);

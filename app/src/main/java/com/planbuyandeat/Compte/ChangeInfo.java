@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.planbuyandeat.Models.Utilisateur;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 import com.planbuyandeat.R;
 
 import java.util.Objects;

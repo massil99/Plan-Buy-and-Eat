@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.planbuyandeat.SQLite.DBHelper;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
@@ -73,10 +74,13 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
         Cursor cursor = database.query(DBHelper.TABLE_USERS,
                 allColumns, DBHelper.COLUMN_USERS_ID + " = " + insertId, null,
                 null, null, null);
-        cursor.moveToFirst();
-        Utilisateur newUser = cursorToUser(cursor);
-        cursor.close();
-        return newUser;
+        if(cursor != null && cursor.getCount() >0){
+            cursor.moveToFirst();
+            Utilisateur newUser = cursorToUser(cursor);
+            cursor.close();
+            return newUser;
+        }else
+            return null;
     }
 
     /**
@@ -108,7 +112,6 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
             users.add(user);
             cursor.moveToNext();
         }
-        // assurez-vous de la fermeture du curseur
         cursor.close();
 
         return users;
@@ -124,9 +127,13 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
                 allColumns, DBHelper.COLUMN_USERS_USERNAME +" = '"+user.getUsername() +"' "+
                 "AND "+DBHelper.COLUMN_USERS_MDP + " = '"+ user.getMdp()+"'",
                 null,null, null, null);
-        if(cursor != null && cursor.getCount() >0)
-            return cursorToUser(cursor);
-        else
+
+        if(cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            Utilisateur u = cursorToUser(cursor);
+            cursor.close();
+            return u;
+        } else
             return null;
     }
 
@@ -137,14 +144,14 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
      */
     private Utilisateur cursorToUser(Cursor cursor){
         Utilisateur user = new Utilisateur();
-        user.setId(cursor.getLong(0));
-        user.setNom(cursor.getString(1));
-        user.setPrenom(cursor.getString(2));
-        user.setUsername(cursor.getString(3));
-        user.hasAndSetMdp(cursor.getString(4));
-        user.setNbPlatjour(cursor.getInt(5));
-        user.setPeriod(cursor.getInt(6));
-        user.setDateDebut(cursor.getString(7));
+        user.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_ID)));
+        user.setNom(cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_NOM)));
+        user.setPrenom(cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_PRENOM)));
+        user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_USERNAME)));
+        user.setMdp(cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_MDP)));
+        user.setNbPlatjour(cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_NBPlatJours)));
+        user.setPeriod(cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_PERIODE)));
+        user.setDateDebut(cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_USERS_DateDebut)));
         return user;
     }
 

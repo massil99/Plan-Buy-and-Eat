@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.planbuyandeat.Identification.Login;
-import com.planbuyandeat.Models.Utilisateur;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 import com.planbuyandeat.R;
 
 import java.util.ArrayList;
