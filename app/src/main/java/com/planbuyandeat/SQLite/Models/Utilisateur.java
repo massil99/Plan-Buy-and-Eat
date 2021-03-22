@@ -1,4 +1,10 @@
-package com.planbuyandeat.Models;
+package com.planbuyandeat.SQLite.Models;
+
+import com.planbuyandeat.utils.MD5HashFunction;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Model d'un utilisateur de l'application
@@ -29,11 +35,32 @@ public class Utilisateur {
      */
     private String mdp;
 
+    /**
+     * le nombre de plat que souhait avoir l'utillsateur par jour
+     */
+    private int nbPlatjour;
+
+    /**
+     * la date de début de generation du planning
+     */
+    private String dateDebut;
+
+    /**
+     * la frequence à laquelle l'utilisateur souhait faire ses courses
+     */
+    private int period;
+
     public Utilisateur(String nom, String prenom, String username, String mdp) {
         this.nom = nom;
         this.prenom = prenom;
         this.username = username;
         this.mdp = mdp;
+    }
+
+    public Utilisateur() {
+        nbPlatjour = 2;
+        period = 7;
+        dateDebut = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
     }
 
     /** Getters et Setters **/
@@ -75,5 +102,35 @@ public class Utilisateur {
 
     public void setMdp(String mdp) {
         this.mdp = mdp;
+    }
+
+    public void hasAndSetMdp(String mdp) {
+        this.mdp = MD5HashFunction.hash(mdp);
+    }
+
+    public int getNbPlatjour() {
+        return nbPlatjour;
+    }
+
+    public void setNbPlatjour(int nbPlatjour) {
+        if(nbPlatjour >0 && nbPlatjour <= 5)
+            this.nbPlatjour = nbPlatjour;
+    }
+
+    public String getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(String dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        if(period > 0)
+            this.period = period;
     }
 }

@@ -2,6 +2,8 @@ package com.planbuyandeat.Identification;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.planbuyandeat.R;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 /**
  * Cette Activité se charge d'afficher le fomulaire d'inscription,
@@ -51,6 +55,8 @@ public class Signup extends AppCompatActivity {
      */
     private TextView signupError;
 
+     private SharedPreferences userSession;
+
     /**
      * A la creation de l'acitivité toutes les vues de l'interface graphique
      * sont récupérées afin de récuper leur données et de les traiter
@@ -72,6 +78,9 @@ public class Signup extends AppCompatActivity {
         regisgter = findViewById(R.id.btn_register);
         signupError = findViewById(R.id.text_signup_error);
 
+        UsersSQLiteDAO userdao = new UsersSQLiteDAO(this);
+        userSession = getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
+
         /**
          * Traitemnt des données dans le OnClickListenner du bouton de
          * validatiokn
@@ -80,14 +89,28 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Tester si il n'y a pas de champ vide
-                if(!firstname.getText().equals("") &&
-                    !lastname.getText().equals("") &&
-                    !username.getText().equals("") &&
-                    !password.getText().equals("") &&
-                    !passwordx.getText().equals("")){
+                if(!firstname.getText().toString().equals("") &&
+                    !lastname.getText().toString().equals("") &&
+                    !username.getText().toString().equals("") &&
+                    !password.getText().toString().equals("") &&
+                    !passwordx.getText().toString().equals("")){
                     // Verifier la confirmation du mot de passe
-                    if(passwordx.getText().equals(password.getText())){
-                        /* TODO creaion d'un utilisateur dans la base de données */
+                    if(passwordx.getText().toString().equals(password.getText().toString())){
+                        Utilisateur user = new Utilisateur();
+                        user.setPrenom(firstname.getText().toString());
+                        user.setNom(lastname.getText().toString());
+                        user.setUsername(username.getText().toString());
+                        user.hasAndSetMdp(password.getText().toString());
+
+                        /**
+                         * Creation d'un utilisateur dans la base de données
+                         */
+                        userdao.open();
+                        userdao.create(user);
+                        userdao.close();
+
+                        userSession
+
                     }else
                         // Afficher un message d'erreur [Confirmation incorrect]
                         signupError.setText(R.string.passwd_not_matching);

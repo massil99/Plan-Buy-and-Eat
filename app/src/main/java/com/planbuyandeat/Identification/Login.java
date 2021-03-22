@@ -3,6 +3,7 @@ package com.planbuyandeat.Identification;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.R;
+
+import java.security.PublicKey;
 
 /**
  * Activity permetant de s'identifier à l'application ou créer un compte
@@ -49,6 +52,12 @@ public class Login extends AppCompatActivity {
      */
     private TextView loginError;
 
+
+    /**
+     * Fichier de préférence utilisé comme session
+     */
+    public static String MySESSION = "session";
+    private SharedPreferences userSession;
     /**
      * A la creataion de l'acitivité ses composant sont récupérés
      * et on s'occupe de valider le formualaire d'identifiaction ainsi
@@ -67,6 +76,7 @@ public class Login extends AppCompatActivity {
         loginError = findViewById(R.id.text_login_error);
         username = findViewById(R.id.editview_nomUtilisateur);
         password = findViewById(R.id.editview_prenom);
+
 
         /**
          * Validation des données de connxeion dans le OnclickListener du boutton
