@@ -1,4 +1,4 @@
-package com.planbuyandeat.ListesDesCourses.LDCView;
+package com.planbuyandeat.ListesDesCourses;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.planbuyandeat.Models.ListeDeCourses;
 import com.planbuyandeat.ListesDesCourses.LDCView.LDCItems;
-import com.planbuyandeat.ListesDesCourses.LDCView.ListeDeCoursesAdapter;
+import com.planbuyandeat.Models.ListeDeCourses;
+import com.planbuyandeat.ListesDesCourses.ListeDeCoursesAdapter;
 import com.planbuyandeat.R;
 
 import java.util.ArrayList;

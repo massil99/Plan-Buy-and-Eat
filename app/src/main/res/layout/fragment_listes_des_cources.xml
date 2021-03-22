@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ListesDesCourses.LDCView.ListesDesCourcesFragment">
+    tools:context=".BottomNavigationBar$ListesDesCourcesFragment"
+    android:padding="10dp">
+
     <TextView
         android:text="@string/shopping"
         style="@style/Theme.PlanBuyAndEat.activityTitle"

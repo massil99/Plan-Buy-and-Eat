@@ -20,7 +20,6 @@ import java.util.Objects;
 public class Settings extends AppCompatActivity {
     private EditText period;
     private Button changeDateDebut;
-    private TextView dateDebut;
     private EditText platPJour;
 
     @Override
@@ -30,7 +29,6 @@ public class Settings extends AppCompatActivity {
 
         period = findViewById(R.id.editview_period);
         changeDateDebut = findViewById(R.id.btn_modifierDateDebutPeriode);
-        dateDebut = findViewById(R.id.text_dateDebutPeriode);
         platPJour = findViewById(R.id.editview_nbPlatPjour);
 
         period.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -51,6 +49,8 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatePickerFragment datePicker = new DatePickerFragment();
+                /**TODO: Set date picker to chosen date */
+
                 datePicker.show(getSupportFragmentManager(), "DatePicker");
                 datePicker.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -60,7 +60,6 @@ public class Settings extends AppCompatActivity {
                                         month + "/" +
                                         year;
                         Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
-                        dateDebut.setText(date);
                     }
                 });
             }
