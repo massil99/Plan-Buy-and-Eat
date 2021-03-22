@@ -13,6 +13,11 @@
         android:id="@+id/nav_planning"
         android:title="@string/planning"
         android:icon="@drawable/ic_planning"/>
+
+    <item
+        android:id="@+id/nav_ldc"
+        android:title="@string/shopping"
+        android:icon="@drawable/ic_shopping_lists"/>
     <item
         android:id="@+id/nav_map"
         android:title="@string/Map"

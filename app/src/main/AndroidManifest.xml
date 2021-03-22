@@ -28,7 +28,7 @@
         <activity
             android:name=".Planning.Settings.Settings"
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
-        <activity android:name=".Planning.LDCView.LDCItems"
+        <activity android:name=".ListesDesCourses.LDCView.LDCItems"
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
         <activity android:name=".Models.Ingredients"
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>

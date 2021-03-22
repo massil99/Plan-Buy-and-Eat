@@ -9,13 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.planbuyandeat.Models.ListeDeCourses;
-import com.planbuyandeat.Planning.LDCView.LDCItems;
 import com.planbuyandeat.Planning.Settings.Settings;
 import com.planbuyandeat.R;
 
@@ -24,11 +20,8 @@ import org.naishadhparmar.zcustomcalendar.OnDateSelectedListener;
 import org.naishadhparmar.zcustomcalendar.OnNavigationButtonClickedListener;
 import org.naishadhparmar.zcustomcalendar.Property;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,11 +35,6 @@ public class Planning extends Fragment {
      * Calendrier affichant le planning avec pour chaque jours la liste des palts
      */
     private CustomCalendar customCalendar;
-
-    /**
-     * Listeview pour la liste des dates des courses à faire
-     */
-    private ListView planning;
     
     /**
      * Button permetant de passer à l'acitivité Settings pour gérer les paramétre de l'application
@@ -84,7 +72,6 @@ public class Planning extends Fragment {
          * Récuperation des vue du layout du fragemnt
          */
         customCalendar = view.findViewById(R.id.calendar_planning);
-        planning = view.findViewById(R.id.list_plannig);
         settings = view.findViewById(R.id.btn_plannigSettings);
 
         /**
@@ -159,47 +146,6 @@ public class Planning extends Fragment {
                 /* TODO Afficher les plat on cliquant sur une date */
                 if(desc != null)
                     Toast.makeText(view.getContext(), (String)desc, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        /* TODO Recuperation des donnée à partir de la base de données */
-
-        //test
-        List<ListeDeCourses> listesDeCourses = new ArrayList<>();
-        ListeDeCourses l =  new ListeDeCourses(new Date());
-        ListeDeCourses l2 =  new ListeDeCourses(new Date());
-        l.addItem("fromage");
-        l2.addItem("fromage");
-        l.addItem("tomate");
-        listesDeCourses.add(l);
-        listesDeCourses.add(l2);
-
-        /**
-         * ArrayAdapteur pour le liste des jours ou l'utilisateur à prévu de faire ses
-         * courses. ListeDeCoursesAdapter hérite de ArrayAdapteur, pour faire en sorte d'afficher
-         * un objet ListeDeCourses par ligne
-         */
-        ListeDeCoursesAdapter listdDeCoursesAdapter =
-                new ListeDeCoursesAdapter(view.getContext(), R.layout.list_de_cours_item, listesDeCourses);
-
-        /**
-         * Définir l'ArrayAdapteur de notre liste
-         */
-        planning.setAdapter(listdDeCoursesAdapter);
-
-        /**
-         * En cliquant sur un élément de la liste l'acitivité LDCItems est lancée avec dedans les
-         * courses à faire pour cette date
-         */
-        planning.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListeDeCourses selectedLDC = listesDeCourses.get(position);
-                if(selectedLDC != null){
-                    Intent i = new Intent(view.getContext(), LDCItems.class);
-                    i.putExtra("id", selectedLDC.getId()); // Passage de l'ID de la liste selctionnée
-                    startActivity(i);
-                }
             }
         });
 

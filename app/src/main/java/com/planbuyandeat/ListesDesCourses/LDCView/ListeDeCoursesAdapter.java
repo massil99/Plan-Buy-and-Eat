@@ -1,4 +1,4 @@
-package com.planbuyandeat.Planning;
+package com.planbuyandeat.ListesDesCourses.LDCView;
 
 import android.content.Context;
 import android.view.LayoutInflater;

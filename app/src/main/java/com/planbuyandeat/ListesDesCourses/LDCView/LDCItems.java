@@ -1,4 +1,4 @@
-package com.planbuyandeat.Planning.LDCView;
+package com.planbuyandeat.ListesDesCourses.LDCView;
 
 import androidx.appcompat.app.AppCompatActivity;
 

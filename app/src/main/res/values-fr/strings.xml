@@ -6,7 +6,7 @@
     <string name="ajouter">Ajouter</string>
     <string name="parametre">Paramétres</string>
     <string name="generer">Generer</string>
-    <string name="shopping">Listes des coures</string>
+    <string name="shopping">Courses</string>
     <string name="periode_de_shopping">Fréquence à laqulle vous faites vous coures</string>
     <string name="date_de_debut">Date de début</string>
     <string name="modifer_date">Modifier</string>

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.planbuyandeat.Compte.Compte;
+import com.planbuyandeat.ListesDesCourses.LDCView.ListesDesCourcesFragment;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.Repertoire.Repertoire;
 
@@ -57,6 +58,9 @@ public class BottomNavigationBar extends AppCompatActivity {
                         break;
                     case R.id.nav_compte:
                         chosenFragment = new Compte();
+                        break;
+                    case R.id.nav_ldc:
+                        chosenFragment = new ListesDesCourcesFragment();
                         break;
                     default:
                         chosenFragment = new Planning();

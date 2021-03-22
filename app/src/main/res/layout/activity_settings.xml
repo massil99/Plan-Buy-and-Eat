@@ -2,54 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
     <TextView
         android:text="@string/parametre"
-        android:layout_width="wrap_content"
+        style="@style/Theme.PlanBuyAndEat.activityTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
         <TextView
             android:text="@string/periode_de_shopping"
+            android:layout_weight="0.8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/editview_period"
+            android:layout_weight="0.2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"/>
     </LinearLayout>
-
+    <View style="@style/Divider"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
        <TextView
             android:text="@string/date_de_debut"
+            android:layout_weight="0.4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+       <Button
+            android:id="@+id/btn_modifierDateDebutPeriode"
+            android:text="@string/modifer_date"
+            android:layout_weight="0.1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
        <TextView
            android:id="@+id/text_dateDebutPeriode"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"/>
-       <Button
-           android:id="@+id/btn_modifierDateDebutPeriode"
-           android:text="@string/modifer_date"
+           android:layout_weight="0.6"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <View style="@style/Divider"/>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
         <TextView
             android:text="@string/nb_plats_pjour"
+            android:layout_weight="0.8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/editview_nbPlatPjour"
+            android:layout_weight="0.2"
             android:inputType="number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
