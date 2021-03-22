@@ -10,12 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.planbuyandeat.Models.ListeDeCourses;
 import com.planbuyandeat.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * ArrayAdapteur modifié pour pouvoir gérer des objets ListDeCourses dans la listeView auquel il sera

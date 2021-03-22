@@ -9,20 +9,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanBuyAndEat">
-        <activity android:name=".BottomNavigationBar"></activity>
-        <activity android:name=".Identification.Signup" />
-        <activity android:name=".Identification.Login">
+        <activity android:name=".Compte.ChangeInfo"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+        <activity android:name=".Compte.ChangePass"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+        <activity android:name=".BottomNavigationBar"/>
+        <activity android:name=".Identification.Signup"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+        <activity
+            android:name=".Identification.Login"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Planning.Settings.Settings" />
-        <activity android:name=".Planning.LDCView.LDCItems" />
-        <activity android:name=".Planning.Planning" />
-        <activity android:name=".Repertoire.Ingredients.Ingredients" />
-        <activity android:name=".Repertoire.Repertoire" />
+        <activity
+            android:name=".Planning.Settings.Settings"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+        <activity android:name=".Planning.LDCView.LDCItems"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+        <activity android:name=".Models.Ingredients"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
     </application>
 
 </manifest>

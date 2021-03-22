@@ -1,4 +1,4 @@
-package com.planbuyandeat.Repertoire;
+package com.planbuyandeat.Models;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -8,6 +8,9 @@
         android:id="@+id/text_nomPlat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Theme.PlanBuyAndEat.activityTitle"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="60dp"
         android:text="@string/ingredients"/>
 
     <ListView
@@ -20,17 +23,26 @@
     <LinearLayout
         android:id="@+id/saisieIngredient"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:weightSum="1">
         <EditText
             android:id="@+id/editview_nomIngredient"
+            android:layout_weight="0.8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_ajoutIngredient"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ajouter"/>
+            android:layout_weight="0.2"
+            android:padding="0dp">
+            <Button
+                android:id="@+id/btn_ajoutIngredient"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:text="@string/ajouter"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.planbuyandeat.Repertoire.Ingredients;
+package com.planbuyandeat.Models;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.planbuyandeat.R;
-import com.planbuyandeat.Repertoire.Plat;
+import com.planbuyandeat.Models.Plat;
+import com.planbuyandeat.Repertoire.Ingredients.IngredientAdapter;
 
 import java.util.Objects;
 

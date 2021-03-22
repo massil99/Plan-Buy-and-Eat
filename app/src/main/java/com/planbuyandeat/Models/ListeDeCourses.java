@@ -1,4 +1,4 @@
-package com.planbuyandeat.Planning;
+package com.planbuyandeat.Models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

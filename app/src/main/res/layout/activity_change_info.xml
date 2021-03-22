@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_changeinfo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
     android:gravity="center"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="?attr/colorPrimary">
     <LinearLayout
-        android:background="@drawable/from_card"
-        android:layout_weight="0.9"
         android:orientation="vertical"
+        android:layout_weight="0.9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center">
-        <ImageView
-            android:src="@mipmap/ic_launcher_round"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:gravity="center"
+        android:background="@drawable/from_card">
         <TextView
-            android:text="@string/Signup"
-            style="@style/Theme.PlanBuyAndEat.activityTitle"
+            android:text="@string/changeInfo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="60dp"
+            style="@style/Theme.PlanBuyAndEat.activityTitle"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginBottom="60dp">
             <TextView
                 android:text="@string/prenom"
                 style="@style/Theme.PlanBuyAndEat.intputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/editview_prenom"
+                android:id="@+id/editview_changePrenom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
+
 
             <TextView
                 android:text="@string/nom"
@@ -42,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/editview_nom"
+                android:id="@+id/editview_changeNom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -52,44 +53,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/editview_nomUtilisateur_signup"
+                android:id="@+id/editview_changeUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:text="@string/mdp"
+                android:text="@string/passCheck"
                 style="@style/Theme.PlanBuyAndEat.intputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/editview_mdp_signup"
+                android:id="@+id/editview_passCheckBeforeChange"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
-
-
-            <TextView
-                android:text="@string/mdpx"
-                style="@style/Theme.PlanBuyAndEat.intputLabel"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/editview_mdpx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_signup_error"
-            style="@style/Theme.PlanBuyAndEat.errorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/btn_register"
-            android:text="@string/register"
+            android:id="@+id/btn_chagneValidateInfo"
             style="@style/Theme.PlanBuyAndEat.Button"
+            android:text="@string/validate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
 </LinearLayout>

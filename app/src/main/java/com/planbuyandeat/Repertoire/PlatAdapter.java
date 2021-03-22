@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.planbuyandeat.Repertoire.Ingredients.Ingredients;
+import com.planbuyandeat.Models.Plat;
+import com.planbuyandeat.Models.Ingredients;
 import com.planbuyandeat.R;
 
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         /**
          * Button permettant de redériger vers la liste des ingrédients
          */
-        Button btn = convertView.findViewById(R.id.btn_ingredients);
+        ImageButton btn = convertView.findViewById(R.id.btn_ingredients);
 
         /**
          * Définitoin du numéro du plat par rapport à sa postion dans la liste

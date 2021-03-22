@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.planbuyandeat.Models.ListeDeCourses;
 import com.planbuyandeat.Planning.LDCView.LDCItems;
 import com.planbuyandeat.Planning.Settings.Settings;
 import com.planbuyandeat.R;

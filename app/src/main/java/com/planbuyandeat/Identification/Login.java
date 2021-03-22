@@ -83,7 +83,9 @@ public class Login extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
                     /* TODO Simulate a session*/
 
-                    // Redirection verss l'activité Planning
+                    // Terminer l'activité actuelle
+                    finish();
+                    // Redirection verss l'activité Répertoire$
                     startActivity(i);
                 }else{
                     // connexion échouée

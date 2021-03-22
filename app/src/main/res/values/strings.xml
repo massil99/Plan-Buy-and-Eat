@@ -26,4 +26,18 @@
     <string name="planning">Planning</string>
     <string name="repertoire">Meal list</string>
     <string name="compte">Account</string>
+    <string name="changePass">Change password</string>
+    <string name="changeInfo">Change user information</string>
+    <string name="validate">Validate</string>
+    <string name="oldPass">Current password</string>
+    <string name="newPass">New password</string>
+    <string name="newPassx">New password confirmation</string>
+    <string name="passCheck">Type your password</string>
+    <string name="changesApplyed">Modfications applyed</string>
+    <string name="wrong_pass">Wrong passord</string>
+    <string name="logout">Log out</string>
+    <string name="accSetting">Account settings</string>
+    <string name="changeInfoDesc">Change your personnal inforamtion such as Frstname and username</string>
+    <string name="changePassDesc">Replace yout current password</string>
+    <string name="logoutDesc">Disconnect your accout</string>
 </resources>

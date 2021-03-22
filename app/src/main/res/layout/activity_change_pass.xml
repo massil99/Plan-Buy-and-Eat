@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_changepass"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="?attr/colorPrimary"
+    android:weightSum="1">
+    <LinearLayout
+        android:layout_weight="0.9"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/from_card">
+        <TextView
+            android:text="@string/changePass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Theme.PlanBuyAndEat.activityTitle"
+            android:layout_marginBottom="60dp"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="60dp">
+            <TextView
+                android:text="@string/oldPass"
+                style="@style/Theme.PlanBuyAndEat.intputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/editview_changeOldPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/newPass"
+                style="@style/Theme.PlanBuyAndEat.intputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/editview_changeNewPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:text="@string/newPassx"
+                style="@style/Theme.PlanBuyAndEat.intputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/editview_changeNewPassx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_chagneValidatePass"
+            android:text="@string/validate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.planbuyandeat.Compte.Compte;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.Repertoire.Repertoire;
 
@@ -32,6 +32,14 @@ public class BottomNavigationBar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation_bar);
         bnv = findViewById(R.id.BottomNavigationView);
+
+        /**
+         * Définir un élément selectionné par defaut
+         */
+        bnv.setSelectedItemId(R.id.nav_repertoire);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new Repertoire()).commit();
+
 
         /**
          * En choisissant un item de la bar un fragment est afficher en focntio de cette item
