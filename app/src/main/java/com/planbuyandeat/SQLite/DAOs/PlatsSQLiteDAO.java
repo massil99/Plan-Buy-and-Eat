@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.planbuyandeat.SQLite.DBHelper;
+import com.planbuyandeat.SQLite.Models.Ingredient;
 import com.planbuyandeat.SQLite.Models.Plat;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class PlatsSQLiteDAO implements DAO<Plat> {
     // Champs de la base de données
+    private IngredientsSQLiteDAO ingdao;
+
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private String[] allColumns = {
@@ -24,6 +27,7 @@ public class PlatsSQLiteDAO implements DAO<Plat> {
 
     public PlatsSQLiteDAO(Context context) {
         dbHelper = new DBHelper(context);
+        ingdao = new IngredientsSQLiteDAO(context);
     }
 
     /**
@@ -121,7 +125,7 @@ public class PlatsSQLiteDAO implements DAO<Plat> {
     }
 
     @Override
-    public List<Plat> getALL() {
+    public List<Plat> getAll() {
         List<Plat> plats = new ArrayList<>();
         Cursor cursor = database.query(DBHelper.TABLE_PLATS,
                 allColumns, null, null, null, null, null);
@@ -147,7 +151,10 @@ public class PlatsSQLiteDAO implements DAO<Plat> {
         plat.setId(cursor.getLong(cursor.getColumnIndex(DBHelper.COLUMN_PLATS_ID)));
         plat.setNom(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PLATS_NOM)));
         plat.setAdderid(cursor.getLong(cursor.getColumnIndex(DBHelper.COLUMN_PLATS_ADDERID)));
-        /* TODO : Ajouter la lise des ingredients */
+        ingdao.open();
+        for (Ingredient ing : ingdao.getAllPlatIngredients(plat))
+            plat.addIngredient(ing);
+        ingdao.close();
         return plat;
     }
 }

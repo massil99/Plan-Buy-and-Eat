@@ -1,6 +1,8 @@
 package com.planbuyandeat.SQLite.Models;
 
-public class Ingrdient {
+import java.util.Objects;
+
+public class Ingredient {
     /**
      * Id dans la base de données de l'ingrdient
      */
@@ -16,7 +18,7 @@ public class Ingrdient {
      */
     private long platId;
 
-    public Ingrdient() {
+    public Ingredient() {
     }
 
     /** Getters and Setters **/
@@ -42,5 +44,20 @@ public class Ingrdient {
 
     public void setPlatId(long platId) {
         this.platId = platId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return id == that.id &&
+                platId == that.platId &&
+                Objects.equals(nom, that.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nom, platId);
     }
 }

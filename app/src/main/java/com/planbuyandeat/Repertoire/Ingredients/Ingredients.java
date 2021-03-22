@@ -1,4 +1,4 @@
-package com.planbuyandeat.SQLite.Models;
+package com.planbuyandeat.Repertoire.Ingredients;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,13 @@ import android.widget.ListView;
 
 import com.planbuyandeat.R;
 import com.planbuyandeat.Repertoire.Ingredients.IngredientAdapter;
+import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.Ingredient;
+import com.planbuyandeat.SQLite.Models.Plat;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,6 +38,16 @@ public class Ingredients extends AppCompatActivity {
      */
     private Button ajoutIng;
 
+    /**
+     * Gestionnaire des plats
+     */
+    private PlatsSQLiteDAO platdao;
+
+    /**
+     * Gesionnaire des ingredients
+     */
+    private IngredientsSQLiteDAO ingdao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,23 +63,32 @@ public class Ingredients extends AppCompatActivity {
         /* TODO Ajout de la suppression d'un element avec un swipe à gauche*/
 
         /**
-         * Récupération de l'ID sélectionné dans la liste des plats
+         * Récupération de l'ID du plat sélectionné dans la liste des plats
          */
         Bundle extra = getIntent().getExtras();
-        int id = extra.getInt("id");
-        /* TODO Recuperation des donnée à partir de la base de données */
+        long id = extra.getLong("id");
 
-        //Test
-        Plat plat = new Plat();
-        plat.setNom("pizza");
-        plat.addIngredient("Tomate");
-        plat.addIngredient("Fromage");
+        platdao = new PlatsSQLiteDAO(this);
+        ingdao = new IngredientsSQLiteDAO(this);
+
+        /**
+         * Réccupere le plat à partir de la base de donées
+         */
+        platdao.open();
+        Plat plat = platdao.get(id);
+        List<String> ings = new ArrayList<>();
+        platdao.close();
+        /**
+         * Remplir la liste des ingredients utilisée dans l'ArrayAdapter
+         */
+        for(Ingredient ing : plat.getIngredients())
+            ings.add(ing.getNom());
 
         /**
          * Définiont d'un ArrayAdapter étendu pour pouvoire gérer les objet Ingrédient
          */
         IngredientAdapter ingredientAdapter =
-                new IngredientAdapter(this, R.layout.ingredient_item, plat.getIngredients());
+                new IngredientAdapter(this, R.layout.ingredient_item, ings);
         ingredients.setAdapter(ingredientAdapter);
 
         /**
@@ -77,11 +102,19 @@ public class Ingredients extends AppCompatActivity {
             public void onClick(View v) {
                 String res = nomIng.getText().toString();
                 if(!Objects.equals(res, "")){
-                    plat.addIngredient(res);
+                    /**
+                     * Creation d'un nouvelle ingredient dans la base de données
+                     */
+                    Ingredient i = new Ingredient();
+                    i.setNom(res);
+                    i.setPlatId(plat.getId());
+                    ingdao.open();
+                    Ingredient createdIng = ingdao.create(i);
+                    plat.addIngredient(createdIng);
+                    ings.add(createdIng.getNom());
                     ingredientAdapter.notifyDataSetChanged();
                     nomIng.setText("");
-
-                    /*TODO Mettre à jout la base de données*/
+                    ingdao.close();
                 }
             }
         });

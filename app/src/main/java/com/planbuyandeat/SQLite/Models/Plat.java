@@ -1,5 +1,6 @@
 package com.planbuyandeat.SQLite.Models;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,25 +26,17 @@ public class Plat {
     /**
      * La liste des intgrédient du plat
      */
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
 
     public Plat(){
-    }
-
-    /**
-     * Création du plat et initilisation de la liste des igrédients
-     * @param nom
-     */
-    public Plat(String nom) {
-        this.nom = nom;
-        this.ingredients = new LinkedList<>();
+        ingredients = new ArrayList<>();
     }
 
     /**
      * Ajouter les ingrédient à la liste des ingrédients
      * @param ing Ingrédient à ajouter
      */
-    public void addIngredient(String ing){
+    public void addIngredient(Ingredient ing){
         this.ingredients.add(ing);
     }
 
@@ -51,7 +44,7 @@ public class Plat {
      * Supprimer les ingrédient à la liste des ingrédients
      * @param ing Ingrédient à supprimer
      */
-    public void removeIngredient(String ing){
+    public void removeIngredient(Ingredient ing){
         this.ingredients.remove(ing);
     }
 
@@ -72,15 +65,15 @@ public class Plat {
         this.adderid = adderid;
     }
 
-    public List<String> getIngredients(){
+    public List<Ingredient> getIngredients(){
         return this.ingredients;
     }
 
-    public String getIngredient(int position){
+    public Ingredient getIngredient(int position){
         return this.ingredients.get(position);
     }
 
-    public void setIngredients(int position, String ingredient){
+    public void setIngredients(int position, Ingredient ingredient){
         this.ingredients.set(position, ingredient);
     }
 
@@ -89,6 +82,6 @@ public class Plat {
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+        this.nom = nom.toLowerCase();
     }
 }

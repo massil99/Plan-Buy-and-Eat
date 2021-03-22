@@ -48,8 +48,11 @@ public class ChangePass extends AppCompatActivity {
         /* TODO: Récuperation de l'uitilisateur à partir de la base de données*/
 
         //test
-        Utilisateur user = new Utilisateur("moungad", "massil", "lissam99", "hello");
-
+        Utilisateur user = new Utilisateur();
+        user.setNom("moungad");
+        user.setPrenom("massil");
+        user.setUsername("lissam99");
+        user.hasAndSetMdp("hello");
         /**
          *
          */

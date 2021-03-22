@@ -37,5 +37,5 @@ public interface DAO <T> {
      * Recupere tous les tuple de la table
      * @return la lites des tupes
      */
-    List<T> getALL();
+    List<T> getAll();
 }

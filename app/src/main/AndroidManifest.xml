@@ -30,7 +30,7 @@
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
         <activity android:name=".ListesDesCourses.LDCView.LDCItems"
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
-        <activity android:name=".Models.Ingredients"
+        <activity android:name=".Repertoire.Ingredients.Ingredients"
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
     </application>
 

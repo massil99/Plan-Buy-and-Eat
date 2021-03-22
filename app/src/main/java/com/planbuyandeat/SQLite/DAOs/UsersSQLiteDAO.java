@@ -138,7 +138,7 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
      * @return la liste des utilisateurs
      */
     @Override
-    public List<Utilisateur> getALL() {
+    public List<Utilisateur> getAll() {
         List<Utilisateur> users = new ArrayList<Utilisateur>();
 
         Cursor cursor = database.query(DBHelper.TABLE_USERS,

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -16,7 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Plat;
-import com.planbuyandeat.SQLite.Models.Ingredients;
+import com.planbuyandeat.Repertoire.Ingredients.Ingredients;
 import com.planbuyandeat.R;
 
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = 0; // TODO id dans la base de données
+                long id = plat.getId();
                 Intent i = new Intent(mContext, Ingredients.class);
                 i.putExtra("id", id);
                 mContext.startActivity(i);

@@ -50,13 +50,6 @@ public class Utilisateur {
      */
     private int period;
 
-    public Utilisateur(String nom, String prenom, String username, String mdp) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.username = username;
-        this.mdp = mdp;
-    }
-
     public Utilisateur() {
         nbPlatjour = 2;
         period = 7;
@@ -77,7 +70,7 @@ public class Utilisateur {
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+        this.nom = nom.toLowerCase();
     }
 
     public String getPrenom() {
@@ -85,7 +78,7 @@ public class Utilisateur {
     }
 
     public void setPrenom(String prenom) {
-        this.prenom = prenom;
+        this.prenom = prenom.toLowerCase();
     }
 
     public String getUsername() {
@@ -93,7 +86,7 @@ public class Utilisateur {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
     }
 
     public String getMdp() {
@@ -122,7 +115,7 @@ public class Utilisateur {
     }
 
     public void setDateDebut(String dateDebut) {
-        this.dateDebut = dateDebut;
+        this.dateDebut = dateDebut.toLowerCase();
     }
 
     public int getPeriod() {
