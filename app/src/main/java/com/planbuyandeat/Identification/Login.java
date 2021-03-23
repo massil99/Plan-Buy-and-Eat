@@ -61,6 +61,7 @@ public class Login extends AppCompatActivity {
      * Fichier de préférence utilisé comme session
      */
     public static String MySESSION = "session";
+
     /**
      * Les clés des valeurs à stocker dans la session
      */
@@ -68,6 +69,9 @@ public class Login extends AppCompatActivity {
     public static String USERNAME = "username";
     public static String MDP = "mdp";
 
+    /**
+     * Ficheir de stockage de la session
+     */
     private SharedPreferences userSession;
     /**
      * A la creataion de l'acitivité ses composant sont récupérés
@@ -81,15 +85,37 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         /**
+         * Instanciation du gesionnaire d'utilisatru
+         */
+        UsersSQLiteDAO userdao = new UsersSQLiteDAO(this);
+
+
+        /**
+         * Regerder si un utilisateur n'est pas déja connecté
+         */
+        userSession = getSharedPreferences(MySESSION, Context.MODE_PRIVATE);
+        Utilisateur logedu = new Utilisateur();
+        logedu.setId(userSession.getLong(USERID, -1));
+        logedu.setUsername(userSession.getString(USERNAME, ""));
+        logedu.setMdp(userSession.getString(MDP, ""));
+
+        // Passer directement à l'activité principale si l'utilisateur n'a pas détruit sa session
+        if(userdao.checkCredentials(logedu) != null){
+            Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
+            // Terminer l'activité actuelle
+            finish();
+            // Redirection vers l'activité BottomNavigationBar
+            startActivity(i);
+        }
+
+
+        /**
          * Récuperation des  views
          */
         loginB = findViewById(R.id.btn_Signin);
         loginError = findViewById(R.id.text_login_error);
         username = findViewById(R.id.editview_nomUtilisateur);
         password = findViewById(R.id.editview_mdp);
-
-        UsersSQLiteDAO userdao = new UsersSQLiteDAO(this);
-        userSession = getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
 
         /**
          * Validation des données de connxeion dans le OnclickListener du boutton
@@ -103,7 +129,7 @@ public class Login extends AppCompatActivity {
                     !password.getText().toString().equals("")){
                     Utilisateur user = new Utilisateur();
                     user.setUsername(username.getText().toString());
-                    user.hasAndSetMdp(password.getText().toString());
+                    user.hashAndSetMdp(password.getText().toString());
                     Utilisateur res = null;
                     // teste de connexion
                     if((res = userdao.checkCredentials(user)) != null){
@@ -118,7 +144,7 @@ public class Login extends AppCompatActivity {
                         Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
                         // Terminer l'activité actuelle
                         finish();
-                        // Redirection verss l'activité Répertoire$
+                        // Redirection vers l'activité BottomNavigationBar
                         startActivity(i);
                     }else {
                         // connexion échouée

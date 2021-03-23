@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.planbuyandeat.R;
-import com.planbuyandeat.Repertoire.Ingredients.IngredientAdapter;
 import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Ingredient;

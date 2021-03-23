@@ -66,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 COLUMN_USERS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 COLUMN_USERS_NOM + " TEXT NOT NULL,"+
                 COLUMN_USERS_PRENOM + " TEXT NOT NULL,"+
-                COLUMN_USERS_USERNAME + " TEXT NOT NULL,"+
+                COLUMN_USERS_USERNAME + " TEXT NOT NULL UNIQUE,"+
                 COLUMN_USERS_MDP + " TEXT NOT NULL,"+
                 COLUMN_USERS_PERIODE + " INTEGER NOT NULL,"+
                 COLUMN_USERS_DateDebut + " TEXT NOT NULL,"+

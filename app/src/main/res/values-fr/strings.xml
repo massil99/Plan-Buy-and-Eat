@@ -42,4 +42,5 @@
     <string name="changePassDesc">Remplacer votre mot de passe acturel</string>
     <string name="logoutDesc">Déconnecter votre compte</string>
     <string name="liste_du">Liste du </string>
+    <string name="username_exist">Nom d\'utilisateur déja utilisé</string>
 </resources>

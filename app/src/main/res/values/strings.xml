@@ -41,4 +41,5 @@
     <string name="changePassDesc">Replace yout current password</string>
     <string name="logoutDesc">Disconnect your accout</string>
     <string name="liste_du">List on</string>
+    <string name="username_exist">Username already exist</string>
 </resources>

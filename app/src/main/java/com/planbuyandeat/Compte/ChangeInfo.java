@@ -2,6 +2,8 @@ package com.planbuyandeat.Compte;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,8 +11,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.planbuyandeat.Identification.Login;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 import com.planbuyandeat.R;
+import com.planbuyandeat.utils.MD5HashFunction;
 
 import java.util.Objects;
 
@@ -43,6 +48,20 @@ public class ChangeInfo extends AppCompatActivity {
      */
     private Button valider;
 
+    /**
+     * Gesionnaire d'utilsiateur
+     */
+    private UsersSQLiteDAO userdao;
+
+    /**
+     * Fichier de préférence utilisé comme session
+     */
+    private SharedPreferences userSession;
+
+    /**
+     * L'utilisateur actuel
+     */
+    private Utilisateur user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +76,17 @@ public class ChangeInfo extends AppCompatActivity {
         username = findViewById(R.id.editview_changeUsername);
         pass = findViewById(R.id.editview_passCheckBeforeChange);
         valider = findViewById(R.id.btn_chagneValidateInfo);
+
+        userdao = new UsersSQLiteDAO(this);
         /**
-         * Récuperation de l'id de l'utilisateur passé à cette activité
+         * Récuperation des info de la session
          */
-        Bundle extra = getIntent().getExtras();
-        int id = extra.getInt("id");
-
-        /* TODO: récuperer l'utilisateur à partir  de la base de données */
-
-        //test
-        Utilisateur user = new Utilisateur();
-        user.setNom("moungad");
-        user.setPrenom("massil");
-        user.setUsername("lissam99");
-        user.hasAndSetMdp("hello");
+        userSession = getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
+        long id = userSession.getLong(Login.USERID, -1);
+        user = new Utilisateur();
+        userdao.open();
+        user = userdao.get(id);
+        userdao.close();
 
         /**
          * chagner les info de l'utilisateur
@@ -85,9 +101,16 @@ public class ChangeInfo extends AppCompatActivity {
                    !prenom.getText().toString().equals("")   &&
                    !username.getText().toString().equals("") &&
                    !pass.getText().toString().equals("")){
+                    String hashed = MD5HashFunction.hash(pass.getText().toString());
+                    user.setUsername(username.getText().toString());
+                    user.setPrenom(prenom.getText().toString());
+                    user.setNom(nom.getText().toString());
+
                     // teste du mot de passe
-                    if(Objects.equals(pass.getText().toString(), user.getMdp())){
-                        /** TODO: modifier les infoamtion de la base de données */
+                    if(Objects.equals(hashed, user.getMdp())){
+                        userdao.open();
+                        userdao.update(user);
+                        userdao.close();
                         Snackbar.make(l, R.string.changesApplyed, Snackbar.LENGTH_LONG).show();
                     }else {
                         Snackbar.make(l, R.string.wrong_pass, Snackbar.LENGTH_LONG).show();
@@ -97,6 +120,5 @@ public class ChangeInfo extends AppCompatActivity {
 
             }
         });
-
     }
 }

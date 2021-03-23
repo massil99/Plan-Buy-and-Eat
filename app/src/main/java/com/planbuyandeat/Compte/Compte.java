@@ -1,6 +1,8 @@
 package com.planbuyandeat.Compte;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.planbuyandeat.Identification.Login;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 import com.planbuyandeat.R;
 
@@ -41,6 +44,20 @@ public class Compte extends Fragment {
      */
     private ListView accSettings;
 
+    /**
+     * Gesionnaire d'utilsiateur
+     */
+    private UsersSQLiteDAO userdao;
+
+    /**
+     * Fichier de préférence utilisé comme session
+     */
+    private SharedPreferences userSession;
+
+    /**
+     * Les infoamtion de l'utilisateur actuel
+     */
+    private Utilisateur user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,14 +71,17 @@ public class Compte extends Fragment {
         username = view.findViewById(R.id.text_usernameUtilisateur);
         accSettings = view.findViewById(R.id.list_acccSettings);
 
-        /* TODO: Récupere l'utilisateur à partir de la session puis la base de données */
+        userdao = new UsersSQLiteDAO(getContext());
+        userSession = getActivity().getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
 
-        //test
-        Utilisateur user = new Utilisateur();
-        user.setNom("moungad");
-        user.setPrenom("massil");
-        user.setUsername("lissam99");
-        user.hasAndSetMdp("hello");
+        /**
+         * Récuperation des info de la session
+         */
+        long id = userSession.getLong(Login.USERID, -1);
+        userdao.open();
+        user = userdao.get(id);
+        userdao.close();
+
         /**
          * Remplissage des texteviews avec les information de l'utilisateur
          */
@@ -100,10 +120,10 @@ public class Compte extends Fragment {
                 String p = (String) parent.getItemAtPosition(position);
                 // Passer à l'activité ChangeInfo
                 if(p.equals(view.getResources().getString(R.string.changeInfo)))
-                    changeInfo(view ,user);
+                    changeInfo(view);
                 // Passer à l'activité ChangePass
                 else if(p.equals(view.getResources().getString(R.string.changePass)))
-                    changePass(view ,user);
+                    changePass(view);
                 // Déconnexion et retour vers la page de connexion
                 else if(p.equals(view.getResources().getString(R.string.logout)))
                     logout();
@@ -113,34 +133,45 @@ public class Compte extends Fragment {
         });
         return view;
     }
-        /**
-         * Changement vers l'acitivité ChangeInfo en passe l'identfiant de l'utilisateur
-         * à celle-ci
-         */
-        public void changeInfo(View view, Utilisateur user) {
-            Intent i = new Intent(view.getContext(), ChangeInfo.class);
-            i.putExtra("id", user.getId());
-            startActivity(i);
-        }
 
-        /**
-        * Changement vers l'acitivité ChangePass en passe l'identfiant de l'utilisateur
-        * à celle-ci
-        */
-        public void changePass(View view, Utilisateur user) {
-            Intent i = new Intent(view.getContext(), ChangePass.class);
-            i.putExtra("id", user.getId());
-            startActivity(i);
-        }
 
-        /**
-         * Déconnextion de l'utilisateur et retour à la page de connexion
-         */
-        public void logout() {
-            /**TODO: deco le user */
-            Intent i = new Intent(getContext(), Login.class);
-            getActivity().finish();
-            startActivity(i);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        String p = user.getPrenom().substring(0, 1).toUpperCase()
+                + user.getPrenom().substring(1).toLowerCase();
+        String n = user.getNom().toUpperCase();
+        nom.setText(p + " " + n);
+        username.setText(user.getUsername());
+    }
 
+    /**
+     * Changement vers l'acitivité ChangeInfo en passe l'identfiant de l'utilisateur
+     * à celle-ci
+     */
+    public void changeInfo(View view) {
+        Intent i = new Intent(view.getContext(), ChangeInfo.class);
+        startActivity(i);
+    }
+
+    /**
+    * Changement vers l'acitivité ChangePass en passe l'identfiant de l'utilisateur
+    * à celle-ci
+    */
+    public void changePass(View view) {
+        Intent i = new Intent(view.getContext(), ChangePass.class);
+        startActivity(i);
+    }
+
+    /**
+     * Déconnextion de l'utilisateur et retour à la page de connexion
+     */
+    public void logout() {
+        SharedPreferences.Editor editor = userSession.edit();
+        editor.clear();
+        editor.commit();
+        Intent i = new Intent(getContext(), Login.class);
+        getActivity().finish();
+        startActivity(i);
+    }
 }

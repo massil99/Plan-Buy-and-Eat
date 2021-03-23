@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.planbuyandeat.SQLite.DBHelper;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
+import com.planbuyandeat.utils.MD5HashFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,30 +61,40 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
      */
     @Override
     public Utilisateur create(Utilisateur o) {
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_USERS_NOM, o.getNom());
-        values.put(DBHelper.COLUMN_USERS_PRENOM, o.getPrenom());
-        values.put(DBHelper.COLUMN_USERS_USERNAME, o.getUsername());
-        values.put(DBHelper.COLUMN_USERS_MDP, o.getMdp());
-        values.put(DBHelper.COLUMN_USERS_NBPlatJours, o.getNbPlatjour());
-        values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
-        values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
-
-        /**
-         * Récuperation de l'id du tuple inseré
-         */
-        long insertId = database.insert(DBHelper.TABLE_USERS, null,
-                values);
-        Cursor cursor = database.query(DBHelper.TABLE_USERS,
-                allColumns, DBHelper.COLUMN_USERS_ID + " = " + insertId, null,
-                null, null, null);
-        if(cursor != null && cursor.getCount() >0){
-            cursor.moveToFirst();
-            Utilisateur newUser = cursorToUser(cursor);
+        Cursor cursor = database.query(DBHelper.TABLE_USERS , allColumns,
+                DBHelper.COLUMN_USERS_USERNAME +" = '"+ o.getUsername() +"'",
+                null, null, null, null);
+        if(cursor.getCount() == 0){
             cursor.close();
-            return newUser;
-        }else
+
+            ContentValues values = new ContentValues();
+            values.put(DBHelper.COLUMN_USERS_NOM, o.getNom());
+            values.put(DBHelper.COLUMN_USERS_PRENOM, o.getPrenom());
+            values.put(DBHelper.COLUMN_USERS_USERNAME, o.getUsername());
+            values.put(DBHelper.COLUMN_USERS_MDP, o.getMdp());
+            values.put(DBHelper.COLUMN_USERS_NBPlatJours, o.getNbPlatjour());
+            values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
+            values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
+
+            /**
+             * Récuperation de l'id du tuple inseré
+             */
+            long insertId = database.insert(DBHelper.TABLE_USERS, null,
+                    values);
+            cursor = database.query(DBHelper.TABLE_USERS,
+                    allColumns, DBHelper.COLUMN_USERS_ID + " = " + insertId, null,
+                    null, null, null);
+            if(cursor != null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                Utilisateur newUser = cursorToUser(cursor);
+                cursor.close();
+                return newUser;
+            }else
+                return null;
+        }else {
+            cursor.close();
             return null;
+        }
     }
 
     /**
@@ -103,18 +114,25 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
 
     @Override
     public void update(Utilisateur o) {
-        long id = o.getId();
+        Cursor cursor = database.query(DBHelper.TABLE_USERS , allColumns,
+                DBHelper.COLUMN_USERS_USERNAME +" = '"+ o.getUsername() +"'",
+                null, null, null, null);
+        if(cursor.getCount() == 0) {
+            long id = o.getId();
 
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_USERS_NOM, o.getNom());
-        values.put(DBHelper.COLUMN_USERS_PRENOM, o.getPrenom());
-        values.put(DBHelper.COLUMN_USERS_USERNAME, o.getUsername());
-        values.put(DBHelper.COLUMN_USERS_MDP, o.getMdp());
-        values.put(DBHelper.COLUMN_USERS_NBPlatJours, o.getNbPlatjour());
-        values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
-        values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
+            ContentValues values = new ContentValues();
+            values.put(DBHelper.COLUMN_USERS_NOM, o.getNom());
+            values.put(DBHelper.COLUMN_USERS_PRENOM, o.getPrenom());
+            values.put(DBHelper.COLUMN_USERS_USERNAME, o.getUsername());
+            values.put(DBHelper.COLUMN_USERS_MDP, o.getMdp());
+            values.put(DBHelper.COLUMN_USERS_NBPlatJours, o.getNbPlatjour());
+            values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
+            values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
 
-        database.update(DBHelper.TABLE_USERS, values, DBHelper.COLUMN_USERS_ID + " = " + id, null);
+            int n = database.update(DBHelper.TABLE_USERS, values, DBHelper.COLUMN_USERS_ID + " = " + id, null);
+            Log.d("UserSQLiteDAO", String.valueOf(n) + " " + o.getMdp() + "/" + MD5HashFunction.hash("a"));
+        }
+        cursor.close();
     }
 
     /**

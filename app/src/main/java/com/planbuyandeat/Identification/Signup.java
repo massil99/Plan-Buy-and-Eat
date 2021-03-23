@@ -106,7 +106,7 @@ public class Signup extends AppCompatActivity {
                         user.setPrenom(firstname.getText().toString());
                         user.setNom(lastname.getText().toString());
                         user.setUsername(username.getText().toString());
-                        user.hasAndSetMdp(password.getText().toString());
+                        user.hashAndSetMdp(password.getText().toString());
 
                         /**
                          * Creation d'un utilisateur dans la base de données
@@ -115,21 +115,25 @@ public class Signup extends AppCompatActivity {
                         Utilisateur res = userdao.create(user);
                         userdao.close();
 
-                        /**
-                         * Creation d'une session
-                         */
-                        SharedPreferences.Editor editor = userSession.edit();
-                        editor.putString(Login.USERNAME, res.getUsername());
-                        editor.putString(Login.MDP, res.getMdp());
-                        editor.putLong(Login.USERID, res.getId());
-                        editor.apply();
+                        // username n'existe pas
+                        if(res != null){
+                            /**
+                             * Creation d'une session
+                             */
+                            SharedPreferences.Editor editor = userSession.edit();
+                            editor.putString(Login.USERNAME, res.getUsername());
+                            editor.putString(Login.MDP, res.getMdp());
+                            editor.putLong(Login.USERID, res.getId());
+                            editor.apply();
 
-                        /**
-                         * Passer à l'acitvité principale
-                         */
-                        Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
-                        finish();
-                        startActivity(i);
+                            /**
+                             * Passer à l'acitvité principale
+                             */
+                            Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
+                            finish();
+                            startActivity(i);
+                        }else
+                            signupError.setText(R.string.username_exist);
                     }else
                         // Afficher un message d'erreur [Confirmation incorrect]
                         signupError.setText(R.string.passwd_not_matching);

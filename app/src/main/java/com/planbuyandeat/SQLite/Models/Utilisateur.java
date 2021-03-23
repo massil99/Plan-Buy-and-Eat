@@ -97,7 +97,7 @@ public class Utilisateur {
         this.mdp = mdp;
     }
 
-    public void hasAndSetMdp(String mdp) {
+    public void hashAndSetMdp(String mdp) {
         this.mdp = MD5HashFunction.hash(mdp);
     }
 

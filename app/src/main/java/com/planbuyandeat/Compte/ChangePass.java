@@ -2,6 +2,8 @@ package com.planbuyandeat.Compte;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,8 +11,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.planbuyandeat.Identification.Login;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 import com.planbuyandeat.R;
+import com.planbuyandeat.utils.MD5HashFunction;
 
 public class ChangePass extends AppCompatActivity {
     /**
@@ -32,6 +37,20 @@ public class ChangePass extends AppCompatActivity {
      */
     private Button validate;
 
+    /**
+     * Gesionnaire d'utilsiateur
+     */
+    private UsersSQLiteDAO userdao;
+
+    /**
+     * Fichier de préférence utilisé comme session
+     */
+    private SharedPreferences userSession;
+
+    /**
+     * L'utilisateur actuel
+     */
+    private Utilisateur user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,16 +64,19 @@ public class ChangePass extends AppCompatActivity {
         newPassx = findViewById(R.id.editview_changeNewPassx);
         validate = findViewById(R.id.btn_chagneValidatePass);
 
-        /* TODO: Récuperation de l'uitilisateur à partir de la base de données*/
-
-        //test
-        Utilisateur user = new Utilisateur();
-        user.setNom("moungad");
-        user.setPrenom("massil");
-        user.setUsername("lissam99");
-        user.hasAndSetMdp("hello");
+        userdao = new UsersSQLiteDAO(this);
         /**
-         *
+         * Récuperation des info de la session
+         */
+        userSession = getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
+        long id = userSession.getLong(Login.USERID, -1);
+        user = new Utilisateur();
+        userdao.open();
+        user = userdao.get(id);
+        userdao.close();
+
+        /**
+         * Validation du formulaire de changment de mot de passe
          */
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +87,19 @@ public class ChangePass extends AppCompatActivity {
                     !newPass.getText().toString().equals("") &&
                     !newPassx.getText().toString().equals("")){
                     if(newPassx.getText().toString().equals(newPass.getText().toString())){
-                        if(odlPass.getText().toString().equals(user.getMdp())){
+                        // ouverture de l'instance de base de données
+                        userdao.open();
+
+                        user.hashAndSetMdp(odlPass.getText().toString());
+                        // Teste de la validité du mot de passe courrant
+                        if(userdao.checkCredentials(user) != null){
+                            // Mise à jour du nouveau mot de passe dans la base de données
+                            user.hashAndSetMdp(newPass.getText().toString());
+                            userdao.update(user);
                             Snackbar.make(l, R.string.changesApplyed, Snackbar.LENGTH_LONG).show();
                         }else
                             Snackbar.make(l, R.string.wrong_pass, Snackbar.LENGTH_LONG).show();
+                        userdao.open();
                     }else
                         Snackbar.make(l, R.string.passwd_not_matching, Snackbar.LENGTH_LONG).show();
                 }else
