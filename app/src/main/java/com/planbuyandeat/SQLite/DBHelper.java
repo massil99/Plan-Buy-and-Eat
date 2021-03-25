@@ -52,10 +52,25 @@ public class DBHelper extends SQLiteOpenHelper {
     public final static String COLUMN_INGREDIENTS_PLATID = "platid";
 
     /**
+     * TABLE jour: représent un jour du planning
+     *      id : identifiant de la date dans la base de données
+     *      dayOfMonth : le jour du mois de la date
+     *      month : le mois de la date
+     *      year : l'année de la date
+     */
+    public final static String TABLE_JOUR = "jour";
+    public final static String COLUMN_JOUR_ID = "id";
+    public final static String COLUMN_JOUR_DAY = "dayOfMonth";
+    public final static String COLUMN_JOUR_MONTH = "month";
+    public final static String COLUMN_JOUR_YEAR = "year";
+
+    /**
      * TABLE PlatJour: associe un plat à une date
+     *      date
+     *      platid : l'id de du plat associé a cette date
      */
     public final static String TABLE_PLATJOUR = "platJour";
-    public final static String COLUMN_PLATJOUR_DATE = "date";
+    public final static String COLUMN_PLATJOUR_DATEID = "dateid";
     public final static String COLUMN_PLATJOUR_PLATID = "platid";
 
     /**
@@ -85,8 +100,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     "REFERENCES " + TABLE_USERS + "(" + COLUMN_USERS_ID + ")"+
             ");";
 
-
-
     /**
      * script de creation de la table igredients
      */
@@ -99,17 +112,30 @@ public class DBHelper extends SQLiteOpenHelper {
                     "REFERENCES " + TABLE_PLATS + "(" + COLUMN_PLATS_ID + ")"+
             ");";
 
+    /**
+     * Script de creation d'un jour du planning
+     */
+    private final static String CREATE_JOUR=
+        "CREATE TABLE " + TABLE_JOUR + " (" +
+            COLUMN_JOUR_ID + " INTEGER PRIMARY KEY, "+
+            COLUMN_JOUR_DAY + " INTEGER NOT NULL," +
+            COLUMN_JOUR_MONTH + " INTEGER NOT NULL, "+
+            COLUMN_JOUR_YEAR + " INTEGER NOT NULL,"+
+            "UNIQUE(" +COLUMN_JOUR_DAY + ", " + COLUMN_JOUR_MONTH + ", " + COLUMN_JOUR_YEAR + ")"+
+        ");";
 
     /**
      * script de creation de la table platjour
      */
     private final static String CREATE_PLATJOUR =
             "CREATE TABLE " + TABLE_PLATJOUR + "("+
-                    COLUMN_PLATJOUR_DATE + " TEXT PRIMARY KEY,"+
-                    COLUMN_PLATS_NOM+ " TEXT NOT NULL,"+
+                    COLUMN_PLATJOUR_DATEID + " TEXT NOT NULL,"+
                     COLUMN_PLATJOUR_PLATID + " INTEGER NOT NULL,"+
+                    "PRIMARY KEY ("+ COLUMN_PLATJOUR_DATEID +", "+ COLUMN_PLATJOUR_PLATID+")," +
                     "FOREIGN KEY (" + COLUMN_PLATJOUR_PLATID + ") " +
-                    "REFERENCES " + TABLE_PLATS + "(" + COLUMN_PLATS_ID + ")"+
+                    "REFERENCES " + TABLE_PLATS + "(" + COLUMN_PLATS_ID + "),"+
+                    "FOREIGN KEY(" + COLUMN_PLATJOUR_DATEID + ") " +
+                    "REFERENCES " + TABLE_JOUR + "(" + COLUMN_JOUR_ID + ")"+
             ");";
 
 
@@ -136,6 +162,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USERS);
         db.execSQL(CREATE_PLATS);
         db.execSQL(CREATE_INGREDIENTS);
+        db.execSQL(CREATE_JOUR);
         db.execSQL(CREATE_PLATJOUR);
     }
 
@@ -152,6 +179,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLATJOUR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOUR);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INGREDIENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLATS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);

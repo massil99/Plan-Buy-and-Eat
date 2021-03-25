@@ -10,23 +10,17 @@ import java.util.List;
  */
 public class ListeDeCourses {
     /**
-     * Identifiatn de la liste
-     */
-    private long id;
-
-    /**
      * Date des courses
      */
-    private Date date;
+    private String date;
 
     /**
      * La liste des éléments
      */
     private List<String> items;
 
-    public ListeDeCourses(Date date) {
+    public ListeDeCourses() {
         this.items = new ArrayList<>();
-        this.date = date;
     }
 
     /**
@@ -37,7 +31,6 @@ public class ListeDeCourses {
         if(!this.items.contains(ing))
             this.items.add(ing);
     }
-
 
     /**
      * Supprimer un élément à la liste
@@ -59,20 +52,12 @@ public class ListeDeCourses {
     }
 
     /** Getters et Setters */
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public List<String> getItems() {

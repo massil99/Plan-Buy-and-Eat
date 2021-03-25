@@ -2,11 +2,15 @@ package com.planbuyandeat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,16 +43,25 @@ public class BottomNavigationBar extends AppCompatActivity {
      */
     private BottomNavigationView bnv;
 
+    private ActionBar ActivityActionBar;
+
     /**
      * Chargment d'un fragement par défaut à la création et gestion de l'évément de click
      * sur le botttomNaviationBar
      * @param savedInstanceState
      */
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation_bar);
         bnv = findViewById(R.id.BottomNavigationView);
+
+        /**
+         * Changer le titre l'aciton bar
+         */
+        ActivityActionBar = getSupportActionBar();
+        ActivityActionBar.setTitle(R.string.list_plats);
 
         /**
          * Définir un élément selectionné par defaut
@@ -57,7 +70,6 @@ public class BottomNavigationBar extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new Repertoire()).commit();
 
-
         /**
          * En choisissant un item de la bar un fragment est afficher en focntio de cette item
          */
@@ -65,25 +77,32 @@ public class BottomNavigationBar extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment chosenFragment = null;
+                int chosenFragmentTitle = 0;
                 switch (item.getItemId()){
                     case R.id.nav_planning:
+                        chosenFragmentTitle = R.string.planning;
                         chosenFragment = new Planning();
                         break;
                     case R.id.nav_repertoire:
+                        chosenFragmentTitle = R.string.repertoire;
                         chosenFragment = new Repertoire();
                         break;
                     case R.id.nav_compte:
+                        chosenFragmentTitle = R.string.compte;
                         chosenFragment = new Compte();
                         break;
                     case R.id.nav_ldc:
+                        chosenFragmentTitle = R.string.shopping;
                         chosenFragment = new ListesDesCourcesFragment();
                         break;
                     default:
-                        chosenFragment = new Planning();
+                        chosenFragmentTitle = R.string.repertoire;
+                        chosenFragment = new Repertoire();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         chosenFragment).commit();
+                ActivityActionBar.setTitle(chosenFragmentTitle);
                 return true;
             }
         });
@@ -111,8 +130,8 @@ public class BottomNavigationBar extends AppCompatActivity {
 
             //test
             List<ListeDeCourses> listesDeCourses = new ArrayList<>();
-            ListeDeCourses l =  new ListeDeCourses(new Date());
-            ListeDeCourses l2 =  new ListeDeCourses(new Date());
+            ListeDeCourses l =  new ListeDeCourses();
+            ListeDeCourses l2 =  new ListeDeCourses();
             l.addItem("fromage");
             l2.addItem("fromage");
             l.addItem("tomate");
@@ -142,7 +161,6 @@ public class BottomNavigationBar extends AppCompatActivity {
                     ListeDeCourses selectedLDC = listesDeCourses.get(position);
                     if(selectedLDC != null){
                         Intent i = new Intent(view.getContext(), LDCItems.class);
-                        i.putExtra("id", selectedLDC.getId()); // Passage de l'ID de la liste selctionnée
                         startActivity(i);
                     }
                 }
@@ -203,7 +221,7 @@ public class BottomNavigationBar extends AppCompatActivity {
              * Date prévu à laquel l'utilisateur va faire ses  courses
              */
             TextView date = convertView.findViewById(R.id.text_dateListDeCours);
-            date.setText(ft.format(getItem(position).getDate()));
+            date.setText(getItem(position).getDate());
 
             /**
              * Aperçu de la liste des courses

@@ -101,7 +101,9 @@ public class PlatsSQLiteDAO implements DAO<Plat> {
                 allColumns, DBHelper.COLUMN_PLATS_ID +" = "+ id, null, null, null, null);
 
         cursor.moveToFirst();
-        Plat plat = cursorToPlat(cursor);
+        Plat plat = null;
+        if(cursor.getCount() > 0)
+            plat = cursorToPlat(cursor);
         cursor.close();
 
         return plat;

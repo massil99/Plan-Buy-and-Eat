@@ -99,6 +99,7 @@ public class Login extends AppCompatActivity {
         logedu.setUsername(userSession.getString(USERNAME, ""));
         logedu.setMdp(userSession.getString(MDP, ""));
 
+        userdao.open();
         // Passer directement à l'activité principale si l'utilisateur n'a pas détruit sa session
         if(userdao.checkCredentials(logedu) != null){
             Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
@@ -107,7 +108,7 @@ public class Login extends AppCompatActivity {
             // Redirection vers l'activité BottomNavigationBar
             startActivity(i);
         }
-
+        userdao.close();
 
         /**
          * Récuperation des  views

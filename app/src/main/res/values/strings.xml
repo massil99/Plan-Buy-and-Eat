@@ -6,7 +6,7 @@
     <string name="parametre">Settings</string>
     <string name="generer">Generate</string>
     <string name="shopping">Shopping lists</string>
-    <string name="periode_de_shopping">Shopping periode length</string>
+    <string name="periode_de_shopping">Shopping period length</string>
     <string name="date_de_debut">Starting Date</string>
     <string name="modifer_date">Change</string>
     <string name="nb_plats_pjour">Numbers of meals per day</string>
@@ -18,7 +18,7 @@
     <string name="mdp">Password</string>
     <string name="nom">Last Name</string>
     <string name="prenom">First Name</string>
-    <string name="mdpx">Confirm Passwrod</string>
+    <string name="mdpx">Confirm Password</string>
     <string name="wrong_cred">Incorrect username or password</string>
     <string name="register">Register</string>
     <string name="empty_fields">Some fields are empty</string>
@@ -33,13 +33,13 @@
     <string name="newPass">New password</string>
     <string name="newPassx">New password confirmation</string>
     <string name="passCheck">Type your password</string>
-    <string name="changesApplyed">Modfications applyed</string>
-    <string name="wrong_pass">Wrong passord</string>
+    <string name="changesApplyed">Modifications applied</string>
+    <string name="wrong_pass">Wrong password</string>
     <string name="logout">Log out</string>
     <string name="accSetting">Account settings</string>
-    <string name="changeInfoDesc">Change your personnal inforamtion such as Frstname and username</string>
-    <string name="changePassDesc">Replace yout current password</string>
-    <string name="logoutDesc">Disconnect your accout</string>
+    <string name="changeInfoDesc">Change your personal information such as firstname and username</string>
+    <string name="changePassDesc">Replace your current password</string>
+    <string name="logoutDesc">Disconnect your account</string>
     <string name="liste_du">List on</string>
     <string name="username_exist">Username already exist</string>
 </resources>

@@ -34,7 +34,6 @@ public class LDCItems extends AppCompatActivity {
         /**
          * Récuperation de l'ID de la liste à afficher
          */
-        int listId = getIntent().getExtras().getInt("id");
         /* TODO Récupérer les information de la base de données */
 
         //test

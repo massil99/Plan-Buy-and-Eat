@@ -96,7 +96,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         /**
          * Définitoin du numéro du plat par rapport à sa postion dans la liste
          */
-        num.setText(String.valueOf(position));
+        num.setText(String.valueOf(position+1));
 
         /**
          * Redirection vers la liste des ingrédient, en passant l'ID du plat séléctionné

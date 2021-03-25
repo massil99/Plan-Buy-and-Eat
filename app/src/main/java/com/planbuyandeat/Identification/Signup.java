@@ -89,7 +89,7 @@ public class Signup extends AppCompatActivity {
 
         /**
          * Traitemnt des données dans le OnClickListenner du bouton de
-         * validatiokn
+         * validation
          * */
         regisgter.setOnClickListener(new View.OnClickListener() {
             @Override

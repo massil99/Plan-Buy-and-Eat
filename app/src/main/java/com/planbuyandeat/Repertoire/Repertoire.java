@@ -112,11 +112,6 @@ public class Repertoire extends Fragment {
 
                    platdao.open();
                    Plat res = platdao.create(plat);
-                   Log.d("repertoire", String.valueOf(res.getId()) + " " +
-                           res.getNom() + " " +
-                           String.valueOf(res.getAdderid()) + " "+
-                           String.valueOf(user.getId()));
-
                    arrayList.add(res);
                    platAdapter.notifyDataSetChanged();
                    platdao.close();

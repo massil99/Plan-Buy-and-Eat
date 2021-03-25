@@ -41,8 +41,8 @@ public class ListesDesCourcesFragment extends Fragment {
 
         //test
         List<ListeDeCourses> listesDeCourses = new ArrayList<>();
-        ListeDeCourses l =  new ListeDeCourses(new Date());
-        ListeDeCourses l2 =  new ListeDeCourses(new Date());
+        ListeDeCourses l =  new ListeDeCourses();
+        ListeDeCourses l2 =  new ListeDeCourses();
         l.addItem("fromage");
         l2.addItem("fromage");
         l.addItem("tomate");
@@ -72,7 +72,6 @@ public class ListesDesCourcesFragment extends Fragment {
                 ListeDeCourses selectedLDC = listesDeCourses.get(position);
                 if(selectedLDC != null){
                     Intent i = new Intent(view.getContext(), LDCItems.class);
-                    i.putExtra("id", selectedLDC.getId()); // Passage de l'ID de la liste selctionnée
                     startActivity(i);
                 }
             }

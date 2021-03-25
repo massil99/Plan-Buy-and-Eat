@@ -14,42 +14,33 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/planning"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Theme.PlanBuyAndEat.smalTitle"
-            android:background="@drawable/card"
-            android:layout_marginBottom="5dp"/>
-
         <LinearLayout
             android:orientation="vertical"
             android:background="@drawable/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp">
-            <org.naishadhparmar.zcustomcalendar.CustomCalendar
-                android:id="@+id/calendar_planning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
             <LinearLayout
+                android:id="@+id/layout_list_plat_jour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/plats"
+                android:layout_weight="1"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:padding="10dp">
                 <TextView
-                    android:text="plat1"
+                    android:text="Les plat du jours selectionné"
                     style="@style/Theme.PlanBuyAndEat.mediumText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-                <TextView
-                    android:text="plat1"
-                    style="@style/Theme.PlanBuyAndEat.mediumText"
-                    android:layout_width="wrap_content"
+                    android:textColor="#8000"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>
+            <org.naishadhparmar.zcustomcalendar.CustomCalendar
+                android:id="@+id/calendar_planning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

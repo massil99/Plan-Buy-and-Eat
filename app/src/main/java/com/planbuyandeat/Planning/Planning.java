@@ -4,25 +4,53 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.planbuyandeat.Identification.Login;
 import com.planbuyandeat.Planning.Settings.Settings;
 import com.planbuyandeat.R;
+import com.planbuyandeat.SQLite.DAOs.JourSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.PlatJourSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.CustomDate;
+import com.planbuyandeat.SQLite.Models.Plat;
+import com.planbuyandeat.SQLite.Models.PlatJour;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 import org.naishadhparmar.zcustomcalendar.CustomCalendar;
 import org.naishadhparmar.zcustomcalendar.OnDateSelectedListener;
 import org.naishadhparmar.zcustomcalendar.OnNavigationButtonClickedListener;
 import org.naishadhparmar.zcustomcalendar.Property;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 /**
  * Acitivité principale de l'applicatio. Elle permet d'afficher le planning avec les plats
@@ -42,6 +70,11 @@ public class Planning extends Fragment {
     private Button settings;
 
     /**
+     * Button de generation d'un nouveau planning
+     */
+    private Button generateB;
+
+    /**
      * Dictionnaire des propiétées du calendrier
      */
     private HashMap<Object, Property> descHashMap;
@@ -57,6 +90,48 @@ public class Planning extends Fragment {
     private Calendar calendar;
 
     /**
+     * Endroit ou les plat d'une date selectionnée serront affichés
+     */
+    private LinearLayout affichagePlats;
+
+    /**
+     * Utilisateur actuellement connecté
+     */
+    private Utilisateur user;
+
+    /**
+     * Gestionnaire d'utilisateur
+     */
+    private UsersSQLiteDAO userdao;
+
+    /**
+     * Gestionnaire des plats
+     */
+    private PlatsSQLiteDAO platdao;
+
+
+    /**
+     * Gestionnaire des associations plat jour
+     */
+    private PlatJourSQLiteDAO pjdao;
+
+    /**
+     * Gestionnaire des jours de planning
+     */
+    private JourSQLiteDAO jourdao;
+
+    /**
+     * Fichier de session
+     */
+    private SharedPreferences userSession;
+
+
+    /**
+     * La limite de jour pour laquel on genre le planning
+     */
+    private final static int GENERATION_LIMIT = 60;
+
+    /**
      * Chargment du layout de l'acitivté
      * @param inflater
      * @param container
@@ -66,13 +141,37 @@ public class Planning extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_planning, container, false);
+        View view;
+        view = inflater.inflate(R.layout.activity_planning, container, false);
         super.onViewCreated(view, savedInstanceState);
+
+        /**
+         * Récuperation des information de la session
+         */
+        userSession = getActivity().getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
+        long id = userSession.getLong(Login.USERID, -1);
+
+
+        userdao = new UsersSQLiteDAO(getContext());
+        pjdao = new PlatJourSQLiteDAO(getContext());
+        platdao = new PlatsSQLiteDAO(getContext());
+        jourdao = new JourSQLiteDAO(getContext());
+
+        /**
+         * Récuperation de l'utilisateur à partir de la base de données
+         */
+        userdao.open();
+        user = userdao.get(id);
+        user.setPeriod(9);
+        userdao.close();
+
         /**
          * Récuperation des vue du layout du fragemnt
          */
         customCalendar = view.findViewById(R.id.calendar_planning);
         settings = view.findViewById(R.id.btn_plannigSettings);
+        generateB = view.findViewById(R.id.btn_generatePlanning);
+        affichagePlats = view.findViewById(R.id.layout_list_plat_jour);
 
         /**
          * Création du dictionnaire des dropritées du calendrier, le dictionnaire associe
@@ -84,7 +183,10 @@ public class Planning extends Fragment {
                 createProperty(R.layout.default_property, R.id.text_defaultText));
         descHashMap.put("current",
                 createProperty(R.layout.current_property, R.id.text_currentText));
-        /* TODO Remplacer les proprieté ci-dessus par de vraies proprietées */
+        descHashMap.put("planning",
+                createProperty(R.layout.planning_property, R.id.text_planningText));
+        descHashMap.put("shopping",
+                createProperty(R.layout.shopping_day_property, R.id.text_shoppinDtText));
 
         /**
          * Definir le dictionnaire des propriétées du CalendarView
@@ -96,24 +198,89 @@ public class Planning extends Fragment {
          */
         dateHashmap = new HashMap<>();
         calendar = Calendar.getInstance();
-        dateHashmap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
 
         /**
-         * Définir le dictionnaire des association entre les jours du mois
-         * et les propriétées
+         * Récuperation de la liste des date du planning
+         * Et definition des visuels de chaque date en fonction du planning
          */
-        customCalendar.setDate(calendar, dateHashmap);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                customCalendar.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        jourdao.open();
+                        List<CustomDate> jours = new ArrayList<>(jourdao.getAllByMonth(String.valueOf(calendar.get(Calendar.MONTH) + 1)));
+                        jourdao.close();
+
+                        // Jours faisant parite du planning
+                        dateHashmap.putAll(setDayProperty(jours, "planning"));
+
+                        // Jour de shopping
+                        CustomDate shopd = new CustomDate();
+                        shopd.setDate(user.getDateDebut());
+
+                        CustomDate temp = new CustomDate();
+                        temp.setDate(user.getDateDebut());
+                        temp.setTime(addDays(temp, GENERATION_LIMIT).getTime());
+
+                        shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                        while(shopd.getDate().before(temp.getDate())){
+                            Log.d(Planning.class.getName(), shopd.getDate().toString());
+                            if(Integer.parseInt(shopd.getMonth()) == calendar.get(Calendar.MONTH) + 1)
+                                dateHashmap.put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
+                            shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                        }
+
+                        // Le jours du mois de la date actuel
+                        dateHashmap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
+
+                        /**
+                         * Définir le dictionnaire des association entre les jours du mois
+                         * et les propriétées
+                         */
+                        customCalendar.setDate(calendar, dateHashmap);
+                    }
+                });
+            }
+        }).start();
 
         /**
          * Changement du dicitonnaire des association entre les jours et les propréitées en
          * changeant de mois [Suivant]
+         *
          */
         customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, new OnNavigationButtonClickedListener() {
             @Override
             public Map<Integer, Object>[] onNavigationButtonClicked(int whichButton, Calendar newMonth) {
                 Map<Integer, Object>[] dates = new Map[2];
-                dates[0] = new HashMap<>();
-                /* TODO Charger les palt pour ce mois si */
+                jourdao.open();
+                List<CustomDate> jours = new ArrayList<>(jourdao.getAllByMonth(String.valueOf(newMonth.get(Calendar.MONTH) + 1)));
+                jourdao.close();
+
+                // Jours faisant parite du planning
+                dates[0] = setDayProperty(jours, "planning");
+
+                // Jour de shopping
+                CustomDate shopd = new CustomDate();
+                shopd.setDate(user.getDateDebut());
+
+                CustomDate temp = new CustomDate();
+                temp.setDate(user.getDateDebut());
+                temp.setTime(addDays(temp, GENERATION_LIMIT).getTime());
+
+                shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                while(shopd.getDate().before(temp.getDate())){
+                    Log.d(Planning.class.getName(), shopd.getDate().toString());
+                    if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
+                        dates[0].put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
+                    shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                }
+
+                // Le jours du mois de la date actuel
+                if(calendar.get(Calendar.MONTH) == newMonth.get(Calendar.MONTH))
+                    dates[0].put(calendar.get(Calendar.DAY_OF_MONTH), "current");
+
                 return dates;
             }
         });
@@ -127,8 +294,33 @@ public class Planning extends Fragment {
             @Override
             public Map<Integer, Object>[] onNavigationButtonClicked(int whichButton, Calendar newMonth) {
                 Map<Integer, Object>[] dates = new Map[2];
-                dates[0] = new HashMap<>();
-                /* TODO Charger les plat pour ce mois ci */
+                jourdao.open();
+                List<CustomDate> jours = new ArrayList<>(jourdao.getAllByMonth(String.valueOf(newMonth.get(Calendar.MONTH) + 1)));
+                jourdao.close();
+
+                // Jours faisant parite du planning
+                dates[0] = setDayProperty(jours, "planning");
+
+                // Jour de shopping
+                CustomDate shopd = new CustomDate();
+                shopd.setDate(user.getDateDebut());
+
+                CustomDate temp = new CustomDate();
+                temp.setDate(user.getDateDebut());
+                temp.setTime(addDays(temp, GENERATION_LIMIT).getTime());
+
+                shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                while(shopd.getDate().before(temp.getDate())){
+                    Log.d(Planning.class.getName(), shopd.getDate().toString());
+                    if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
+                        dates[0].put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
+                    shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                }
+
+                // Le jours du mois de la date actuel
+                if(calendar.get(Calendar.MONTH) == newMonth.get(Calendar.MONTH))
+                    dates[0].put(calendar.get(Calendar.DAY_OF_MONTH), "current");
+
                 return dates;
             }
         });
@@ -139,11 +331,35 @@ public class Planning extends Fragment {
         customCalendar.setOnDateSelectedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(View view, Calendar selectedDate, Object desc) {
-                String date = selectedDate.get(Calendar.DAY_OF_MONTH)+ "/" +
-                        selectedDate.get(Calendar.MONTH)+ "/" +
+                String date = selectedDate.get(Calendar.DAY_OF_MONTH)+ "-" +
+                        String.valueOf(selectedDate.get(Calendar.MONTH)+1)+ "-" +
                         selectedDate.get(Calendar.YEAR);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        customCalendar.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                /**
+                                 * Récuperation de tous les plat prévus pour cette date
+                                 */
+                                pjdao.open();
+                                platdao.open();
+                                List<PlatJour> platJourList = pjdao.getAllPlatOfJour(date);
+                                affichagePlats.removeAllViews();
+                                // Affichage des plat pour la date selectionnée
+                                for(PlatJour p : platJourList){
+                                    TextView t = new TextView(affichagePlats.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_mediumText);
+                                    t.setText(platdao.get(p.getPlatid()).getNom());
+                                    affichagePlats.addView(t);
+                                }
+                                platdao.close();
+                                pjdao.close();
+                            }
+                        });
+                    }
+                }).start();
 
-                /* TODO Afficher les plat on cliquant sur une date */
                 if(desc != null)
                     Toast.makeText(view.getContext(), (String)desc, Toast.LENGTH_SHORT).show();
             }
@@ -160,6 +376,48 @@ public class Planning extends Fragment {
             }
         });
 
+        /**
+         * Gener un nouveau planning
+         */
+        generateB.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                /**
+                 * Traitement de la génération du palnning dans un thread séparé
+                 */
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        generateB.post(new Runnable(){
+                            @Override
+                            public void run() {
+                                /**
+                                 * Géneration du planning
+                                 */
+                                generate();
+
+                                /**
+                                 * Association des propriétés aux jours
+                                 */
+                                jourdao.open();
+                                List<CustomDate> jours = new ArrayList<>(jourdao.getAllByMonth(String.valueOf(calendar.get(Calendar.MONTH) + 1)));
+                                jourdao.close();
+
+                                dateHashmap.putAll(setDayProperty(jours, "planning"));
+                                dateHashmap.put(calendar.get(Calendar.DAY_OF_MONTH), "current");
+
+                                /**
+                                 * Définir le dictionnaire des association entre les jours du mois
+                                 * et les propriétées
+                                 */
+                                customCalendar.setDate(calendar, dateHashmap);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
         return view;
     }
 
@@ -172,9 +430,103 @@ public class Planning extends Fragment {
      */
     private Property createProperty(int resourceId, int textResouceId){
         Property property = new Property();
+
         property.layoutResource = resourceId;
         property.dateTextViewResource = textResouceId;
 
         return property;
+    }
+
+
+    /**
+     * Définition des propriétées des jours du calendrier pour le moi actuel
+     */
+    private Map<Integer, Object> setDayProperty(List<CustomDate> jours, String label){
+        Map<Integer, Object> res = new HashMap<>();
+        for(CustomDate jour: jours) {
+            res.put(Integer.parseInt(jour.getDayOfMonth()), label);
+        }
+        return res;
+    }
+
+    /**
+     * Genéation du planning de maniére alétoire en base de données
+     */
+    private void generate(){
+        if(user != null){
+            platdao.open();
+            List<Plat> plats = platdao.getAllUserPlats(user);
+            platdao.close();
+
+            /**
+             * Génerer le planning que si la liste des plat n'est pas vide
+             */
+            if(plats.size() != 0){
+                /**
+                 * Supprimer le planning déja existant dans la base de données
+                 */
+                pjdao.open();
+                jourdao.open();
+                jourdao.deleteAll();
+                pjdao.deleteAll();
+                /**
+                 * Récuperation des infomation de géneration de planning associées a cet utilisateur
+                 */
+                int nbPJ = user.getNbPlatjour();
+                CustomDate pday = new CustomDate();
+                pday.setDate(user.getDateDebut());
+
+                /**
+                 * Generation du planning jour par jour, les plats d'un jours sont remplis aléatoirement
+                 * à partir de l'ensemble des plats associés à un utilisateur. La géneration s'arrêt un
+                 * GENERATION_LIMIT est atteint
+                 */
+                for(int i = 0; i < GENERATION_LIMIT; i++){
+                    CustomDate newDate = jourdao.create(pday);
+                    // Creation d'un jour de planning
+                    if(newDate != null){
+                        // Remplissage aleatoire des plat
+                        int j = 0;
+                        while(j < nbPJ){
+                            PlatJour platJour = new PlatJour();
+                            platJour.setDateid(newDate.getId());
+
+                            /**
+                             * Choix alétoire d'un plat
+                             */
+                            int randIndx = (int) Math.floor(Math.random() * plats.size());
+                            long platid = plats.get(randIndx).getId();
+                            platJour.setPlatid(platid);
+
+                            /**
+                             * Ajout de l'asscoiation plat jour
+                             */
+                            if(pjdao.create(platJour) != null)
+                                j++;
+                        }
+                    }
+
+                    // Incrementation de la date de 1
+                    pday.setTime(addDays(pday ,1).getTime());
+                }
+                jourdao.close();
+                pjdao.close();
+            }
+        }
+    }
+
+    /**
+     * Increment/decrement une date donnée
+     * @param date la date à modifier
+     * @param days le nombre de jours à ajouter/retirer (si negatif)
+     * @return la nouvelle date
+     */
+    private CustomDate addDays(CustomDate date, int days){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date.getDate());
+        cal.add(Calendar.DATE, days);
+        CustomDate res = new CustomDate();
+        res.setTime(cal.getTime().getTime());
+        return res;
     }
 }

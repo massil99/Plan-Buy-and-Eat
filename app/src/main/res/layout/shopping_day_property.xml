@@ -5,11 +5,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
         android:layout_height="60dp"
-        app:cardBackgroundColor="?attr/colorSecondary">
+        app:cardBackgroundColor="@color/black">
         <TextView
-            android:id="@+id/text_currentText"
+            android:id="@+id/text_shoppinDtText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@color/white"
             android:gravity="center"/>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

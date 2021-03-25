@@ -5,9 +5,9 @@
     <string name="ingredients">Ingrédients</string>
     <string name="ajouter">Ajouter</string>
     <string name="parametre">Paramétres</string>
-    <string name="generer">Generer</string>
+    <string name="generer">Génerer</string>
     <string name="shopping">Courses</string>
-    <string name="periode_de_shopping">Fréquence à laqulle vous faites vous coures</string>
+    <string name="periode_de_shopping">Fréquence à laqulle vous faites vos courses</string>
     <string name="date_de_debut">Date de début</string>
     <string name="modifer_date">Modifier</string>
     <string name="nb_plats_pjour">Nombre de plats par jour</string>
@@ -24,7 +24,7 @@
     <string name="register">S\'inscrire</string>
     <string name="empty_fields">Champs vides</string>
     <string name="passwd_not_matching">La confirmation du mot de passe est incorrecte</string>
-    <string name="planning">Plannig</string>
+    <string name="planning">Planning</string>
     <string name="repertoire">Répertoire</string>
     <string name="compte">Compte</string>
     <string name="changePass">Modifier le mot de passe</string>
@@ -37,10 +37,10 @@
     <string name="changesApplyed">Les modifcations sont appliquées</string>
     <string name="wrong_pass">Mot de passe incorrect</string>
     <string name="logout">Se déconnecter</string>
-    <string name="accSetting">Parémetres du compte</string>
-    <string name="changeInfoDesc">Change vos informations personnelles comme votre nom ou nom d\'utilisateur</string>
-    <string name="changePassDesc">Remplacer votre mot de passe acturel</string>
+    <string name="accSetting">Paramétres du compte</string>
+    <string name="changeInfoDesc">Changer vos informations personnelles comme votre nom ou nom d\'utilisateur</string>
+    <string name="changePassDesc">Remplacer votre mot de passe actuel</string>
     <string name="logoutDesc">Déconnecter votre compte</string>
     <string name="liste_du">Liste du </string>
-    <string name="username_exist">Nom d\'utilisateur déja utilisé</string>
+    <string name="username_exist">Nom d\'utilisateur déjà utilisé</string>
 </resources>
