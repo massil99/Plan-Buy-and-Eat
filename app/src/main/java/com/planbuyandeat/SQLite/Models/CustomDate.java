@@ -3,6 +3,7 @@ package com.planbuyandeat.SQLite.Models;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CustomDate {
@@ -96,5 +97,21 @@ public class CustomDate {
 
     public String getYear(){
         return yearParser.format(component);
+    }
+
+
+    /**
+     * Increment/decrement une date donnée
+     * @param days le nombre de jours à ajouter/retirer (si negatif)
+     */
+    public void addDays(int days){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(component);
+        cal.add(Calendar.DATE, days);
+        component.setTime(cal.getTime().getTime());
+    }
+
+    public String toString(){
+        return format.format(component);
     }
 }

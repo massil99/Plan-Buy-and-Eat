@@ -118,6 +118,25 @@ public class IngredientsSQLiteDAO implements DAO<Ingredient> {
         return ingredients;
     }
 
+
+    public List<Ingredient> getAllPlatIngredients(long id) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        Cursor cursor = database.query(DBHelper.TABLE_INGREDIENTS,
+                allColumns, DBHelper.COLUMN_INGREDIENTS_PLATID + " = " + id
+                , null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            Ingredient ingredient = cursorToIngredient(cursor);
+            ingredients.add(ingredient);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return ingredients;
+    }
+
+
     /**
      * Récuper un ingredient à partir de son id
      * @param id id de l'ingredient

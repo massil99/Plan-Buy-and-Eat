@@ -12,7 +12,7 @@ public class ListeDeCourses {
     /**
      * Date des courses
      */
-    private String date;
+    private CustomDate date;
 
     /**
      * La liste des éléments
@@ -21,6 +21,7 @@ public class ListeDeCourses {
 
     public ListeDeCourses() {
         this.items = new ArrayList<>();
+        date = new CustomDate();
     }
 
     /**
@@ -52,12 +53,12 @@ public class ListeDeCourses {
     }
 
     /** Getters et Setters */
-    public String getDate() {
+    public CustomDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(CustomDate date) {
+        this.date.setTime(date.getTime());
     }
 
     public List<String> getItems() {

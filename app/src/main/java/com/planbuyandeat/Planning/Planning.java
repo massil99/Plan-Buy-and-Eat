@@ -2,11 +2,13 @@ package com.planbuyandeat.Planning;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -129,7 +131,7 @@ public class Planning extends Fragment {
     /**
      * La limite de jour pour laquel on genre le planning
      */
-    private final static int GENERATION_LIMIT = 60;
+    public final static int GENERATION_LIMIT = 60;
 
     /**
      * Chargment du layout de l'acitivté
@@ -222,14 +224,14 @@ public class Planning extends Fragment {
 
                         CustomDate temp = new CustomDate();
                         temp.setDate(user.getDateDebut());
-                        temp.setTime(addDays(temp, GENERATION_LIMIT).getTime());
+                        temp.addDays(GENERATION_LIMIT);
 
-                        shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                        shopd.addDays(user.getPeriod());
                         while(shopd.getDate().before(temp.getDate())){
                             Log.d(Planning.class.getName(), shopd.getDate().toString());
                             if(Integer.parseInt(shopd.getMonth()) == calendar.get(Calendar.MONTH) + 1)
                                 dateHashmap.put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
-                            shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                            shopd.addDays(user.getPeriod());
                         }
 
                         // Le jours du mois de la date actuel
@@ -248,7 +250,6 @@ public class Planning extends Fragment {
         /**
          * Changement du dicitonnaire des association entre les jours et les propréitées en
          * changeant de mois [Suivant]
-         *
          */
         customCalendar.setOnNavigationButtonClickedListener(CustomCalendar.NEXT, new OnNavigationButtonClickedListener() {
             @Override
@@ -267,14 +268,14 @@ public class Planning extends Fragment {
 
                 CustomDate temp = new CustomDate();
                 temp.setDate(user.getDateDebut());
-                temp.setTime(addDays(temp, GENERATION_LIMIT).getTime());
+                temp.addDays(GENERATION_LIMIT);
 
-                shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                shopd.addDays(user.getPeriod());
                 while(shopd.getDate().before(temp.getDate())){
                     Log.d(Planning.class.getName(), shopd.getDate().toString());
                     if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
                         dates[0].put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
-                    shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                    shopd.addDays(user.getPeriod());
                 }
 
                 // Le jours du mois de la date actuel
@@ -307,14 +308,14 @@ public class Planning extends Fragment {
 
                 CustomDate temp = new CustomDate();
                 temp.setDate(user.getDateDebut());
-                temp.setTime(addDays(temp, GENERATION_LIMIT).getTime());
+                temp.addDays(GENERATION_LIMIT);
 
-                shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                shopd.addDays(user.getPeriod());
                 while(shopd.getDate().before(temp.getDate())){
                     Log.d(Planning.class.getName(), shopd.getDate().toString());
                     if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
                         dates[0].put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
-                    shopd.setTime(addDays(shopd, user.getPeriod()).getTime());
+                    shopd.setTime(user.getPeriod());
                 }
 
                 // Le jours du mois de la date actuel
@@ -338,6 +339,7 @@ public class Planning extends Fragment {
                     @Override
                     public void run() {
                         customCalendar.post(new Runnable() {
+                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                             @Override
                             public void run() {
                                 /**
@@ -350,7 +352,7 @@ public class Planning extends Fragment {
                                 // Affichage des plat pour la date selectionnée
                                 for(PlatJour p : platJourList){
                                     TextView t = new TextView(affichagePlats.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_mediumText);
-                                    t.setText(platdao.get(p.getPlatid()).getNom());
+                                    t.setText(platdao.get(p.getPlatid()).getNom().toUpperCase());
                                     affichagePlats.addView(t);
                                 }
                                 platdao.close();
@@ -507,26 +509,11 @@ public class Planning extends Fragment {
                     }
 
                     // Incrementation de la date de 1
-                    pday.setTime(addDays(pday ,1).getTime());
+                    pday.addDays(1);
                 }
                 jourdao.close();
                 pjdao.close();
             }
         }
-    }
-
-    /**
-     * Increment/decrement une date donnée
-     * @param date la date à modifier
-     * @param days le nombre de jours à ajouter/retirer (si negatif)
-     * @return la nouvelle date
-     */
-    private CustomDate addDays(CustomDate date, int days){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date.getDate());
-        cal.add(Calendar.DATE, days);
-        CustomDate res = new CustomDate();
-        res.setTime(cal.getTime().getTime());
-        return res;
     }
 }

@@ -142,6 +142,38 @@ public class PlatJourSQLiteDAO implements DAO<PlatJour> {
         cursor.close();
         return pjs;
     }
+    /**
+     * Récuper tous les plats entre deux dates
+     * @param dateDebut
+     * @param dateFin
+     * @return
+     */
+    public List<PlatJour> getAllPlatsBetween(String dateDebut, String dateFin) {
+        List<PlatJour> pjs = new ArrayList<>();
+        String sql = "SELECT "+ DBHelper.TABLE_PLATJOUR+"."+DBHelper.COLUMN_PLATJOUR_PLATID +", "+
+                DBHelper.TABLE_PLATJOUR+"."+DBHelper.COLUMN_PLATJOUR_DATEID
+                +" FROM " + DBHelper.TABLE_PLATJOUR + ", " + DBHelper.TABLE_JOUR+
+                " WHERE " + DBHelper.TABLE_PLATJOUR+"."+DBHelper.COLUMN_PLATJOUR_DATEID + "="+
+                DBHelper.TABLE_JOUR+"."+DBHelper.COLUMN_JOUR_ID + " AND "+
+                DBHelper.TABLE_JOUR+"."+DBHelper.COLUMN_JOUR_DAY + " || '-' || " +
+                DBHelper.TABLE_JOUR+"."+DBHelper.COLUMN_JOUR_MONTH + " || '-' || " +
+                DBHelper.TABLE_JOUR+"."+DBHelper.COLUMN_JOUR_YEAR +
+                " BETWEEN '" +dateDebut +"' AND '"+dateFin +"';";
+
+        Log.d(this.getClass().getName(), sql);
+        Cursor cursor = database.rawQuery(sql, null);
+
+        if (cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                PlatJour pj = cursorToPlatJour(cursor);
+                pjs.add(pj);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        return pjs;
+    }
 
     /**
      * Récuper tous les tupe de la table PlatJour

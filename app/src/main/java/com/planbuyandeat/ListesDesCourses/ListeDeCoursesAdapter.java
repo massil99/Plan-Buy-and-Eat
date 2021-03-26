@@ -60,14 +60,11 @@ public class ListeDeCoursesAdapter extends ArrayAdapter<ListeDeCourses> {
          */
         convertView = layoutInflater.inflate(mRessource, parent, false);
 
-        SimpleDateFormat ft =
-                new SimpleDateFormat ("dd/MM/yyyy");
-
         /**
          * Date prévu à laquel l'utilisateur va faire ses  courses
          */
         TextView date = convertView.findViewById(R.id.text_dateListDeCours);
-        date.setText(ft.format(getItem(position).getDate()));
+        date.setText(getItem(position).getDate().toString());
 
         /**
          * Aperçu de la liste des courses
