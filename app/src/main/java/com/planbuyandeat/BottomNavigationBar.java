@@ -80,8 +80,8 @@ public class BottomNavigationBar extends AppCompatActivity {
                         chosenFragment = new ListesDesCourcesFragment();
                         break;
                     default:
-                        chosenFragmentTitle = R.string.repertoire;
-                        chosenFragment = new Repertoire();
+                        chosenFragmentTitle = R.string.Map;
+                        chosenFragment = new Map();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
