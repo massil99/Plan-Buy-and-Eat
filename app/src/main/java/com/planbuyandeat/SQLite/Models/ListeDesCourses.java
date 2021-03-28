@@ -1,5 +1,7 @@
 package com.planbuyandeat.SQLite.Models;
 
+import com.planbuyandeat.Repertoire.Ingredients.Ingredients;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,18 +10,29 @@ import java.util.List;
 /**
  * Modéle d'une liste de courses
  */
-public class ListeDeCourses {
+public class ListeDesCourses {
+
+    /**
+     * Identifiant de la liste dans la base de données
+     */
+    private long id;
+
     /**
      * Date des courses
      */
     private CustomDate date;
 
     /**
+     * L'id de l'utilisateur à qui apparitent cette liste
+     */
+    private long userid;
+
+    /**
      * La liste des éléments
      */
-    private List<String> items;
+    private List<LDCItem> items;
 
-    public ListeDeCourses() {
+    public ListeDesCourses() {
         this.items = new ArrayList<>();
         date = new CustomDate();
     }
@@ -28,7 +41,7 @@ public class ListeDeCourses {
      * Ajouter un élément à la liste
      * @param ing Élement à ajouter
      */
-    public void addItem(String ing){
+    public void addItem(LDCItem ing){
         if(!this.items.contains(ing))
             this.items.add(ing);
     }
@@ -37,7 +50,7 @@ public class ListeDeCourses {
      * Supprimer un élément à la liste
      * @param ing Élement à Supprimer
      */
-    public void removeItem(String ing){
+    public void removeItem(LDCItem ing){
         this.items.remove(ing);
     }
 
@@ -47,12 +60,25 @@ public class ListeDeCourses {
      * @param oldIng Élement à remplacer
      * @param newIng Élement remplaçant
      */
-    public void replaceItem(String oldIng, String newIng){
+    public void replaceItem(LDCItem oldIng, LDCItem newIng){
         this.removeItem(oldIng);
         this.addItem(newIng);
     }
 
+
     /** Getters et Setters */
+    public List<LDCItem> getItems() {
+        return items;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public CustomDate getDate() {
         return date;
     }
@@ -61,7 +87,11 @@ public class ListeDeCourses {
         this.date.setTime(date.getTime());
     }
 
-    public List<String> getItems() {
-        return items;
+    public long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(long userid) {
+        this.userid = userid;
     }
 }

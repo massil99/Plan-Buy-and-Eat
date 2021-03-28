@@ -74,6 +74,26 @@ public class DBHelper extends SQLiteOpenHelper {
     public final static String COLUMN_PLATJOUR_PLATID = "platid";
 
     /**
+     * TABLE LDC: stock une liste des courses dans la base de données
+     *      id: l'identifiant de la liste dans la bd
+     *      dateid: le jours prévu pour faire les courses par l'utilisateur
+     */
+    public final static String TABLE_LDC = "liste_des_courses";
+    public final static String COLUMN_LDC_ID = "id";
+    public final static String COLUMN_LDC_DATEID = "dateid";
+    public final static String COLUMN_LDC_USERID = "userid";
+
+    /**
+     * TABLE ldcitems: La liste des éléments composnat une liste des cours
+     *      id_ldc: L'identifiant de l'élément
+     *      itemid: L'élément de la liste
+     */
+    public final static String TABLE_LDCITEMS = "item_listes_des_courses";
+    public final static String COLUMN_LDCITEMS_LDCID = "id_ldc";
+    public final static String COLUMN_LDCITEMS_ITEMID = "itemid";
+    public final static String COLUMN_LDCITEMS_CHECKED = "checked";
+
+    /**
      * script de creation de la table users
      */
     private final static String CREATE_USERS =
@@ -138,6 +158,30 @@ public class DBHelper extends SQLiteOpenHelper {
                     "REFERENCES " + TABLE_JOUR + "(" + COLUMN_JOUR_ID + ")"+
             ");";
 
+    /**
+     * Script de création de la table ldc
+     */
+    private final static String CREATE_LDC =
+            "CREATE TABLE " + TABLE_LDC + "(" +
+                    COLUMN_LDC_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_LDC_USERID + " INTEGER NOT NULL," +
+                    COLUMN_LDC_DATEID + " INTEGER NOT NULL," +
+                    "FOREIGN KEY (" + COLUMN_LDC_DATEID + ") REFERENCES " + TABLE_JOUR + "("+ COLUMN_JOUR_ID+")" +
+            ");";
+
+    /**
+     * Script de créaton de la table item_listes_des_courses
+     */
+    private final static String CREATE_LDCITEMS =
+            "CREATE TABLE " + TABLE_LDCITEMS + "(" +
+                    COLUMN_LDCITEMS_LDCID + " INTEGER NOT NULL," +
+                    COLUMN_LDCITEMS_ITEMID + " INTEGER NOT NULL," +
+                    COLUMN_LDCITEMS_CHECKED + " INTEGER NOT NULL," +
+                    "PRIMARY KEY("+ COLUMN_LDCITEMS_LDCID +", " + COLUMN_LDCITEMS_ITEMID + ")," +
+                    "FOREIGN KEY(" + COLUMN_LDCITEMS_LDCID + ") REFERENCES "+ TABLE_LDC + "("+ COLUMN_LDC_ID +"),"+
+                    "FOREIGN KEY("+ COLUMN_LDCITEMS_ITEMID+") REFERENCES "+ TABLE_INGREDIENTS + "(" +
+                    COLUMN_INGREDIENTS_ID +")"+
+            ");";
 
     /**
      * Nom de la bse de données
@@ -164,6 +208,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_INGREDIENTS);
         db.execSQL(CREATE_JOUR);
         db.execSQL(CREATE_PLATJOUR);
+        db.execSQL(CREATE_LDC);
+        db.execSQL(CREATE_LDCITEMS);
     }
 
 
@@ -183,6 +229,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INGREDIENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLATS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LDC);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LDCITEMS);
         onCreate(db);
     }
 }

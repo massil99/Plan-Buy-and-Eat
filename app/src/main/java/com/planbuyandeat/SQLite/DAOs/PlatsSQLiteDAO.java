@@ -48,7 +48,7 @@ public class PlatsSQLiteDAO implements DAO<Plat> {
 
     /**
      * Créer un plat dans la base de de données
-     * @param o objet plat contenant les infomation à stocker
+     * @param o objet plat contenant les information à stocker
      * @return le plat avec son id dans la base de de données
      */
     @Override

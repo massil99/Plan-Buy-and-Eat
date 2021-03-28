@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.planbuyandeat.R;
 import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
@@ -109,10 +110,12 @@ public class Ingredients extends AppCompatActivity {
                     i.setPlatId(plat.getId());
                     ingdao.open();
                     Ingredient createdIng = ingdao.create(i);
-                    plat.addIngredient(createdIng);
-                    ings.add(createdIng.getNom());
-                    ingredientAdapter.notifyDataSetChanged();
-                    nomIng.setText("");
+                    if(createdIng != null){
+                        plat.addIngredient(createdIng);
+                        ings.add(createdIng.getNom());
+                        ingredientAdapter.notifyDataSetChanged();
+                        nomIng.setText("");
+                    }
                     ingdao.close();
                 }
             }

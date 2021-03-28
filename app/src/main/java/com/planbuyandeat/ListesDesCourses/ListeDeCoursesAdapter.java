@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.planbuyandeat.SQLite.Models.ListeDeCourses;
+import com.planbuyandeat.SQLite.Models.Ingredient;
+import com.planbuyandeat.SQLite.Models.LDCItem;
+import com.planbuyandeat.SQLite.Models.ListeDesCourses;
 import com.planbuyandeat.R;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +22,7 @@ import java.util.List;
  * ArrayAdapteur modifié pour pouvoir gérer des objets ListDeCourses dans la listeView auquel il sera
  * associé
  */
-public class ListeDeCoursesAdapter extends ArrayAdapter<ListeDeCourses> {
+public class ListeDeCoursesAdapter extends ArrayAdapter<ListeDesCourses> {
     /**
      * Contexte de l'adaptateur (La listView)
      */
@@ -37,7 +39,7 @@ public class ListeDeCoursesAdapter extends ArrayAdapter<ListeDeCourses> {
      * @param resource
      * @param objects
      */
-    public ListeDeCoursesAdapter(@NonNull Context context, int resource, @NonNull List<ListeDeCourses> objects) {
+    public ListeDeCoursesAdapter(@NonNull Context context, int resource, @NonNull List<ListeDesCourses> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.mRessource = resource;
@@ -70,14 +72,14 @@ public class ListeDeCoursesAdapter extends ArrayAdapter<ListeDeCourses> {
          * Aperçu de la liste des courses
          */
         TextView items = convertView.findViewById(R.id.text_listItemsOverview);
-        List<String> ings = getItem(position).getItems();
+        List<LDCItem> item = getItem(position).getItems();
 
         /**
          * Replissage de l'aperçu de la liste des courses
          */
         StringBuilder str = new StringBuilder();
-        for(int i = 0; i < ings.size() && i < 5; i++)
-            str.append(ings.get(i)).append(' ');
+        for(int i = 0; i < item.size() && i < 5; i++)
+            str.append(item.get(i).getNom()).append(' ');
         str.append("...");
         items.setText(str.toString());
 

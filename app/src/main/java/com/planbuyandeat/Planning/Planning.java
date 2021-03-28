@@ -25,11 +25,16 @@ import android.widget.Toast;
 import com.planbuyandeat.Identification.Login;
 import com.planbuyandeat.Planning.Settings.Settings;
 import com.planbuyandeat.R;
+import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.JourSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.LDCSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.PlatJourSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.CustomDate;
+import com.planbuyandeat.SQLite.Models.Ingredient;
+import com.planbuyandeat.SQLite.Models.LDCItem;
+import com.planbuyandeat.SQLite.Models.ListeDesCourses;
 import com.planbuyandeat.SQLite.Models.Plat;
 import com.planbuyandeat.SQLite.Models.PlatJour;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
@@ -111,7 +116,6 @@ public class Planning extends Fragment {
      */
     private PlatsSQLiteDAO platdao;
 
-
     /**
      * Gestionnaire des associations plat jour
      */
@@ -122,6 +126,16 @@ public class Planning extends Fragment {
      */
     private JourSQLiteDAO jourdao;
 
+
+    /**
+     * Gestionnaire des ingredients de plat
+     * */
+    private IngredientsSQLiteDAO ingredientsSQLiteDAO;
+
+    /**
+     * Gesionnaire des listes des courses
+     */
+    private LDCSQLiteDAO ldcdao;
     /**
      * Fichier de session
      */
@@ -133,13 +147,6 @@ public class Planning extends Fragment {
      */
     public final static int GENERATION_LIMIT = 60;
 
-    /**
-     * Chargment du layout de l'acitivté
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -158,13 +165,14 @@ public class Planning extends Fragment {
         pjdao = new PlatJourSQLiteDAO(getContext());
         platdao = new PlatsSQLiteDAO(getContext());
         jourdao = new JourSQLiteDAO(getContext());
+        ingredientsSQLiteDAO = new IngredientsSQLiteDAO(getContext());
+        ldcdao = new LDCSQLiteDAO(getContext());
 
         /**
          * Récuperation de l'utilisateur à partir de la base de données
          */
         userdao.open();
         user = userdao.get(id);
-        user.setPeriod(9);
         userdao.close();
 
         /**
@@ -464,15 +472,15 @@ public class Planning extends Fragment {
              * Génerer le planning que si la liste des plat n'est pas vide
              */
             if(plats.size() != 0){
+                pjdao.open();
+                jourdao.open();
                 /**
                  * Supprimer le planning déja existant dans la base de données
                  */
-                pjdao.open();
-                jourdao.open();
                 jourdao.deleteAll();
                 pjdao.deleteAll();
                 /**
-                 * Récuperation des infomation de géneration de planning associées a cet utilisateur
+                 * Récuperation des information de géneration de planning associées a cet utilisateur
                  */
                 int nbPJ = user.getNbPlatjour();
                 CustomDate pday = new CustomDate();
@@ -511,6 +519,49 @@ public class Planning extends Fragment {
                     // Incrementation de la date de 1
                     pday.addDays(1);
                 }
+
+                /**
+                 * Création des listes des courses à partire des dates de courses déjà générées
+                 */
+
+                // TODO : commenter cette parite
+                CustomDate dateDebut = new CustomDate();
+                dateDebut.setDate(user.getDateDebut());
+
+                CustomDate dateFin = new CustomDate();
+                dateFin.setDate(user.getDateDebut());
+                dateFin.addDays(GENERATION_LIMIT);
+
+                ingredientsSQLiteDAO.open();
+                ldcdao.open();
+
+                ldcdao.deleteAll();
+                String temp = dateDebut.toString();
+                dateDebut.addDays(user.getPeriod());
+                while(dateDebut.getDate().before(dateFin.getDate())){
+                    List<PlatJour> pjs = pjdao.getAllPlatsBetween(temp, dateDebut.toString());
+                    if(pjs.size() > 0){
+                        ListeDesCourses ldc = new ListeDesCourses();
+                        ldc.setUserid(user.getId());
+                        ldc.getDate().setId(jourdao.get(dateDebut.toString()).getId());
+                        for (PlatJour platJour : pjs){
+                            List<Ingredient> ings = ingredientsSQLiteDAO.getAllPlatIngredients(platJour.getPlatid());
+                            for(Ingredient ing : ings){
+                                LDCItem ldcItem = new LDCItem();
+                                ldcItem.setId(ing.getId());
+                                ldcItem.setNom(ing.getNom());
+                                ldc.addItem(ldcItem);
+                            }
+                        }
+                       ldcdao.create(ldc);
+                    }
+                    temp = dateDebut.toString();
+                    dateDebut.addDays(user.getPeriod());
+                }
+                /******************************************************/
+
+                ingredientsSQLiteDAO.close();
+                ldcdao.close();
                 jourdao.close();
                 pjdao.close();
             }

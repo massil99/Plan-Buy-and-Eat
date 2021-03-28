@@ -2,12 +2,27 @@ package com.planbuyandeat.ListesDesCourses.LDCView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.planbuyandeat.Identification.Login;
+import com.planbuyandeat.ListesDesCourses.ListesDesCourcesFragment;
 import com.planbuyandeat.R;
+import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.LDCSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.PlatJourSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
+import com.planbuyandeat.SQLite.Models.CustomDate;
+import com.planbuyandeat.SQLite.Models.Ingredient;
+import com.planbuyandeat.SQLite.Models.ListeDesCourses;
+import com.planbuyandeat.SQLite.Models.PlatJour;
+import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +40,23 @@ public class LDCItems extends AppCompatActivity {
      * Date prévu pour faire les courses
      */
     private TextView dateLDC;
+    private TextView dateLDC_start;
+
+    /**
+     * Fichier de la session utilisateur
+     */
+    private SharedPreferences userSession;
+
+    /**
+     * Gesionnaire de connxion à la base de données
+     */
+    private UsersSQLiteDAO userdao;
+    private LDCSQLiteDAO ldcdao;
+
+    /**
+     * L'utilisateur actuellement connecté
+     */
+    private Utilisateur user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,29 +64,48 @@ public class LDCItems extends AppCompatActivity {
         setContentView(R.layout.activity_ldc_items);
 
         /**
-         * Récuperation de l'ID de la liste à afficher
+         * Récuperation des information de la session
          */
-        /* TODO Récupérer les information de la base de données */
+        userSession = getSharedPreferences(Login.MySESSION, Context.MODE_PRIVATE);
+        long userid = userSession.getLong(Login.USERID, -1);
 
-        //test
-        String date = "21/02/2021";
-        List<String> items = new ArrayList<>();
-        items.add("formage");
-        items.add("Tomate");
+
+        userdao = new UsersSQLiteDAO(this);
+        ldcdao = new LDCSQLiteDAO(this);
+
+        /**
+         * Récuperation de l'uitlisateur actuellement connecté
+         */
+        userdao.open();
+        user = userdao.get(userid);
+        userdao.close();
+
+        /**
+         * Récuperation de la liste de courses selectionnée
+         */
+        ldcdao.open();
+        long ldcid = getIntent().getExtras().getLong("ldcid");
+        ListeDesCourses listeDesCourses = ldcdao.get(ldcid);
+        Log.d(this.getClass().getName(), "diplayed ldc_id="+listeDesCourses.getId());
+        ldcdao.close();
 
         /**
          * Récupération de la liste et définiton de l'ArrayAdapteur permétant d'afficher tous les
          * élement de la lise
          */
         ldcItems = findViewById(R.id.list_ldc_items);
-        ArrayAdapter<String> ad = new ArrayAdapter<>(ldcItems.getContext(), R.layout.ldc_item, R.id.text_nomItem);
-        ad.addAll(items);
+        LDCItemsAdapter ad = new LDCItemsAdapter(ldcItems.getContext(), R.layout.ldc_item,
+                listeDesCourses.getItems());
         ldcItems.setAdapter(ad);
 
         /**
-         * Afficher la date
+         * Afficher les dates
          */
         dateLDC = findViewById(R.id.text_dateLDC);
-        dateLDC.setText(date);
+        dateLDC_start = findViewById(R.id.text_dateLDC_start);
+        dateLDC.setText(listeDesCourses.getDate().toString());
+        CustomDate dateDebutP = listeDesCourses.getDate();
+        dateDebutP.addDays(-1 * user.getPeriod() + 1);
+        dateLDC_start.setText(dateDebutP.toString());
     }
 }

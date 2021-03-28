@@ -56,7 +56,7 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
 
     /**
      * Créer un utilisateur dans la base de de données
-     * @param o objet utilsiateur contenant les infomation à stocker
+     * @param o objet utilsiateur contenant les information à stocker
      * @return l'utilisteur avec son id dans la base de de données
      */
     @Override

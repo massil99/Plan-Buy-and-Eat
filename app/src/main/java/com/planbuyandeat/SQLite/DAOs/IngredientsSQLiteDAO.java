@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.planbuyandeat.SQLite.DBHelper;
+import com.planbuyandeat.SQLite.Models.CustomDate;
 import com.planbuyandeat.SQLite.Models.Ingredient;
 import com.planbuyandeat.SQLite.Models.Plat;
 
@@ -44,7 +45,7 @@ public class IngredientsSQLiteDAO implements DAO<Ingredient> {
 
     /**
      * Créer un ingredient dans la base de de données
-     * @param o objet ingredient contenant les infomation à stocker
+     * @param o objet ingredient contenant les information à stocker
      * @return l'ingredient avec son id dans la base de de données
      */
     @Override
@@ -118,7 +119,11 @@ public class IngredientsSQLiteDAO implements DAO<Ingredient> {
         return ingredients;
     }
 
-
+    /**
+     * Retournes tous les ingredients d'un plat
+     * @param id l'identifiant de plat
+     * @return
+     */
     public List<Ingredient> getAllPlatIngredients(long id) {
         List<Ingredient> ingredients = new ArrayList<>();
         Cursor cursor = database.query(DBHelper.TABLE_INGREDIENTS,
@@ -157,6 +162,9 @@ public class IngredientsSQLiteDAO implements DAO<Ingredient> {
     }
 
 
+    /**
+     * Rerourne tous les ingredients de la base de données
+     */
     @Override
     public List<Ingredient> getAll() {
         List<Ingredient> ingredients = new ArrayList<>();
@@ -173,7 +181,11 @@ public class IngredientsSQLiteDAO implements DAO<Ingredient> {
 
         return ingredients;
     }
-
+    /**
+     * Convertie un tuple de la ingredient de la base de données en Ingredient
+     * @param cursor
+     * @return
+     */
     private Ingredient cursorToIngredient(Cursor cursor){
         Ingredient ingredient = new Ingredient();
         ingredient.setId(cursor.getLong(cursor.getColumnIndex(DBHelper.COLUMN_INGREDIENTS_ID)));

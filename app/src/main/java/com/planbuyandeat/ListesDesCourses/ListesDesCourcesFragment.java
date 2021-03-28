@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +18,19 @@ import com.planbuyandeat.Identification.Login;
 import com.planbuyandeat.ListesDesCourses.LDCView.LDCItems;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.JourSQLiteDAO;
+import com.planbuyandeat.SQLite.DAOs.LDCSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.PlatJourSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.CustomDate;
 import com.planbuyandeat.SQLite.Models.Ingredient;
-import com.planbuyandeat.SQLite.Models.ListeDeCourses;
+import com.planbuyandeat.SQLite.Models.LDCItem;
+import com.planbuyandeat.SQLite.Models.ListeDesCourses;
 import com.planbuyandeat.R;
 import com.planbuyandeat.SQLite.Models.PlatJour;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +54,8 @@ public class ListesDesCourcesFragment extends Fragment {
     private UsersSQLiteDAO userdao;
     private PlatJourSQLiteDAO pjdao;
     private IngredientsSQLiteDAO ingredientsSQLiteDAO;
-
+    private LDCSQLiteDAO ldcdao;
+    private JourSQLiteDAO jourSQLiteDAO;
     /**
      * Utilisateur actuellemnt connecté
      */
@@ -76,6 +80,8 @@ public class ListesDesCourcesFragment extends Fragment {
         userdao = new UsersSQLiteDAO(getContext());
         pjdao = new PlatJourSQLiteDAO(getContext());
         ingredientsSQLiteDAO = new IngredientsSQLiteDAO(getContext());
+        ldcdao = new LDCSQLiteDAO(getContext());
+        jourSQLiteDAO = new JourSQLiteDAO(getContext());
 
         /**
          * Récuperation des infomations de l'uitlisateur à stockées dans la session
@@ -84,36 +90,13 @@ public class ListesDesCourcesFragment extends Fragment {
         user = userdao.get(userSession.getLong(Login.USERID, -1));
         userdao.close();
 
-        CustomDate dateDebut = new CustomDate();
-        dateDebut.setDate(user.getDateDebut());
-
-        CustomDate dateFin = new CustomDate();
-        dateFin.setDate(user.getDateDebut());
-        dateFin.addDays(Planning.GENERATION_LIMIT);
-
-        List<ListeDeCourses> listesDeCourses = new ArrayList<>();
-
-        pjdao.open();
-        ingredientsSQLiteDAO.open();
-        String temp = dateDebut.toString();
-        while(dateDebut.getDate().before(dateFin.getDate())){
-            dateDebut.addDays(user.getPeriod());
-
-            List<PlatJour> pjs = pjdao.getAllPlatsBetween(temp, dateDebut.toString());
-            if(pjs.size() > 0){
-                ListeDeCourses ldc = new ListeDeCourses();
-                ldc.setDate(dateDebut);
-                for (PlatJour platJour : pjs){
-                    List<Ingredient> ings = ingredientsSQLiteDAO.getAllPlatIngredients(platJour.getPlatid());
-                    for(Ingredient ing : ings)
-                        ldc.addItem(ing.getNom());
-                }
-                listesDeCourses.add(ldc);
-            }
-            temp = dateDebut.toString();
-        }
-        pjdao.close();
-        ingredientsSQLiteDAO.open();
+        /**
+         * Récuperation des listes de courses de l'uilisateur actuel
+         */
+        List<ListeDesCourses> listesDesCourses;
+        ldcdao.open();
+        listesDesCourses = ldcdao.getAllUserLists(user);
+        ldcdao.close();
 
         /**
          * ArrayAdapteur pour le liste des jours ou l'utilisateur à prévu de faire ses
@@ -121,7 +104,7 @@ public class ListesDesCourcesFragment extends Fragment {
          * un objet ListeDeCourses par ligne
          */
         ListeDeCoursesAdapter listdDeCoursesAdapter =
-                new ListeDeCoursesAdapter(view.getContext(), R.layout.list_de_cours_item, listesDeCourses);
+                new ListeDeCoursesAdapter(view.getContext(), R.layout.list_de_cours_item, listesDesCourses);
 
         /**
          * Définir l'ArrayAdapteur de notre liste
@@ -135,10 +118,12 @@ public class ListesDesCourcesFragment extends Fragment {
         planning.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListeDeCourses selectedLDC = listesDeCourses.get(position);
+                ListeDesCourses selectedLDC = listesDesCourses.get(position);
                 if(selectedLDC != null){
                     Intent i = new Intent(view.getContext(), LDCItems.class);
-                    /* TODO : PASSER LA LISTE SÉLECTIONNÉE */
+                    i.putExtra("ldcid",
+                            ((ListeDesCourses)parent.getItemAtPosition(position)).getId());
+                    Log.d(ListesDesCourcesFragment.class.getName(), "selected ldc_id="+((ListeDesCourses)parent.getItemAtPosition(position)).getId());
                     startActivity(i);
                 }
             }

@@ -8,31 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.planbuyandeat.Compte.Compte;
-import com.planbuyandeat.ListesDesCourses.LDCView.LDCItems;
 import com.planbuyandeat.ListesDesCourses.ListesDesCourcesFragment;
-import com.planbuyandeat.SQLite.Models.ListeDeCourses;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.Repertoire.Repertoire;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Acitivité ayant un Bottom naviagation view et un fragment qui change entre les activité

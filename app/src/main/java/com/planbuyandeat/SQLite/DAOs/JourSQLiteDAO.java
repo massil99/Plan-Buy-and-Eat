@@ -49,7 +49,7 @@ public class JourSQLiteDAO implements DAO<CustomDate>{
 
     /**
      * Créer un jour du planning dans la base de de données
-     * @param o objet contenant les infomation à stocker
+     * @param o objet contenant les information à stocker
      * @return retour l'objet si l'insertion s'est bien passée, null sinon
      */
     @Override
@@ -138,6 +138,28 @@ public class JourSQLiteDAO implements DAO<CustomDate>{
     }
 
     /**
+     * Retourne une date du planning en ayant un string de cette date
+     * @param date
+     * @return
+     */
+    public CustomDate get(String date){
+        CustomDate res = null;
+        Cursor cursor = database.query(DBHelper.TABLE_JOUR,
+                allColumns,
+                DBHelper.COLUMN_JOUR_DAY + " = " + date.split("-")[0] + " AND " +
+                DBHelper.COLUMN_JOUR_MONTH + " = " + date.split("-")[1] + " AND " +
+                DBHelper.COLUMN_JOUR_YEAR + " = " + date.split("-")[2]
+                ,null, null, null, null);
+
+        if (cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            res = cursorToJour(cursor);
+        }
+        cursor.close();
+        return res;
+    }
+
+    /**
      * Récuperation des jours du planning par mois
      * @param month
      * @return
@@ -161,7 +183,7 @@ public class JourSQLiteDAO implements DAO<CustomDate>{
     }
 
     /**
-     * Convertie un tuple jour de la base de données en string
+     * Convertie un tuple jour de la base de données en CustomDate
      * @param cursor
      * @return
      */

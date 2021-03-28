@@ -44,7 +44,7 @@ public class PlatJourSQLiteDAO implements DAO<PlatJour> {
 
     /**
      * Créer une association plat jour du planning dans la base de de données
-     * @param o objet contenant les infomation à stocker
+     * @param o objet contenant les information à stocker
      * @return retour l'objet  si l'insertion s'est bien passée, null sinon
      */
     @Override
