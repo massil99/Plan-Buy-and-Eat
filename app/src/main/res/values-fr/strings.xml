@@ -43,4 +43,5 @@
     <string name="logoutDesc">Déconnecter votre compte</string>
     <string name="liste_du">Liste du </string>
     <string name="username_exist">Nom d\'utilisateur déjà utilisé</string>
+    <string name="no_meals">Vous avez ajouté aucun plat</string>
 </resources>

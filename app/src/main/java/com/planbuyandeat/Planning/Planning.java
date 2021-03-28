@@ -236,7 +236,6 @@ public class Planning extends Fragment {
 
                         shopd.addDays(user.getPeriod());
                         while(shopd.getDate().before(temp.getDate())){
-                            Log.d(Planning.class.getName(), shopd.getDate().toString());
                             if(Integer.parseInt(shopd.getMonth()) == calendar.get(Calendar.MONTH) + 1)
                                 dateHashmap.put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
                             shopd.addDays(user.getPeriod());
@@ -255,6 +254,7 @@ public class Planning extends Fragment {
             }
         }).start();
 
+        Log.d(Planning.class.getName(), "NEXT");
         /**
          * Changement du dicitonnaire des association entre les jours et les propréitées en
          * changeant de mois [Suivant]
@@ -280,8 +280,7 @@ public class Planning extends Fragment {
 
                 shopd.addDays(user.getPeriod());
                 while(shopd.getDate().before(temp.getDate())){
-                    Log.d(Planning.class.getName(), shopd.getDate().toString());
-                    if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
+                if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
                         dates[0].put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
                     shopd.addDays(user.getPeriod());
                 }
@@ -320,10 +319,9 @@ public class Planning extends Fragment {
 
                 shopd.addDays(user.getPeriod());
                 while(shopd.getDate().before(temp.getDate())){
-                    Log.d(Planning.class.getName(), shopd.getDate().toString());
                     if(Integer.parseInt(shopd.getMonth()) == newMonth.get(Calendar.MONTH) + 1)
                         dates[0].put(Integer.parseInt(shopd.getDayOfMonth()), "shopping");
-                    shopd.setTime(user.getPeriod());
+                    shopd.addDays(user.getPeriod());
                 }
 
                 // Le jours du mois de la date actuel
@@ -564,7 +562,8 @@ public class Planning extends Fragment {
                 ldcdao.close();
                 jourdao.close();
                 pjdao.close();
-            }
+            }else
+                Toast.makeText(getContext(), R.string.no_meals, Toast.LENGTH_LONG).show();
         }
     }
 }
