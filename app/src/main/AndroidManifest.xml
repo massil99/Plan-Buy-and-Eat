@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.planbuyandeat">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,17 +13,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanBuyAndEat">
+        <activity android:name=".BasicMapDisplayer"></activity>
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="@string/map_key"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
 
-        <activity android:name=".Compte.ChangeInfo"
-            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
-        <activity android:name=".Compte.ChangePass"
-            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
-        <activity android:name=".BottomNavigationBar"/>
-        <activity android:name=".Identification.Signup"
-            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+        <activity
+            android:name=".Compte.ChangeInfo"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar" />
+        <activity
+            android:name=".Compte.ChangePass"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar" />
+        <activity android:name=".BottomNavigationBar" />
+        <activity
+            android:name=".Identification.Signup"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar" />
         <activity
             android:name=".Identification.Login"
             android:theme="@style/Theme.PlanBuyAndEat.NoActionBar">
@@ -34,11 +40,13 @@
         </activity>
         <activity
             android:name=".Planning.Settings.Settings"
-            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
-        <activity android:name=".ListesDesCourses.LDCView.LDCItems"
-            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
-        <activity android:name=".Repertoire.Ingredients.Ingredients"
-            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar"/>
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar" />
+        <activity
+            android:name=".ListesDesCourses.LDCView.LDCItems"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar" />
+        <activity
+            android:name=".Repertoire.Ingredients.Ingredients"
+            android:theme="@style/Theme.PlanBuyAndEat.NoActionBar" />
     </application>
 
 </manifest>

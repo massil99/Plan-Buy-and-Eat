@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.planbuyandeat.BasicMapDisplayer;
 import com.planbuyandeat.BottomNavigationBar;
+import com.planbuyandeat.Map;
 import com.planbuyandeat.Planning.Planning;
 import com.planbuyandeat.R;
 import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
@@ -117,6 +119,7 @@ public class Login extends AppCompatActivity {
         loginError = findViewById(R.id.text_login_error);
         username = findViewById(R.id.editview_nomUtilisateur);
         password = findViewById(R.id.editview_mdp);
+        mapB = findViewById(R.id.btn_map);
 
         /**
          * Validation des données de connxeion dans le OnclickListener du boutton
@@ -170,5 +173,14 @@ public class Login extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        mapB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), BasicMapDisplayer.class);
+                startActivity(i);
+            }
+        });
+
     }
 }
