@@ -3,14 +3,17 @@ package com.planbuyandeat.Compte;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.Identification.Login;
 import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
@@ -38,6 +41,11 @@ public class ChangePass extends AppCompatActivity {
     private Button validate;
 
     /**
+     * Button de retour
+     */
+    private ImageButton back;
+
+    /**
      * Gesionnaire d'utilsiateur
      */
     private UsersSQLiteDAO userdao;
@@ -63,6 +71,7 @@ public class ChangePass extends AppCompatActivity {
         newPass = findViewById(R.id.editview_changeNewPass);
         newPassx = findViewById(R.id.editview_changeNewPassx);
         validate = findViewById(R.id.btn_chagneValidatePass);
+        back = findViewById(R.id.btn_back_from_change_pass);
 
         userdao = new UsersSQLiteDAO(this);
         /**
@@ -81,8 +90,6 @@ public class ChangePass extends AppCompatActivity {
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout l = findViewById(R.id.layout_changepass);
-
                 if(!odlPass.getText().toString().equals("") &&
                     !newPass.getText().toString().equals("") &&
                     !newPassx.getText().toString().equals("")){
@@ -96,14 +103,22 @@ public class ChangePass extends AppCompatActivity {
                             // Mise à jour du nouveau mot de passe dans la base de données
                             user.hashAndSetMdp(newPass.getText().toString());
                             userdao.update(user);
-                            Snackbar.make(l, R.string.changesApplyed, Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(v, R.string.changesApplyed, Snackbar.LENGTH_LONG).show();
                         }else
-                            Snackbar.make(l, R.string.wrong_pass, Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(v, R.string.wrong_pass, Snackbar.LENGTH_LONG).show();
                         userdao.open();
                     }else
-                        Snackbar.make(l, R.string.passwd_not_matching, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, R.string.passwd_not_matching, Snackbar.LENGTH_LONG).show();
                 }else
-                    Snackbar.make(l, R.string.empty_fields, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(v, R.string.empty_fields, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class );
+                startActivity(i);
             }
         });
     }

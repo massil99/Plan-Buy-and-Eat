@@ -28,11 +28,11 @@
     <string name="repertoire">Répertoire</string>
     <string name="compte">Compte</string>
     <string name="changePass">Modifier le mot de passe</string>
-    <string name="changeInfo">Modifier les vos informations</string>
+    <string name="changeInfo">Modifier vos informations</string>
     <string name="validate">Valider</string>
     <string name="oldPass">Mot de passe actuelle</string>
     <string name="newPass">Nouveau mot de passe</string>
-    <string name="newPassx">Confirmation du nouveau mot de pasee</string>
+    <string name="newPassx">Confirmation du nouveau mot de passe</string>
     <string name="passCheck">Saisir votre mot de passe</string>
     <string name="changesApplyed">Les modifcations sont appliquées</string>
     <string name="wrong_pass">Mot de passe incorrect</string>
@@ -44,4 +44,6 @@
     <string name="liste_du">Liste du </string>
     <string name="username_exist">Nom d\'utilisateur déjà utilisé</string>
     <string name="no_meals">Vous avez ajouté aucun plat</string>
+    <string name="selected_meals">Les plat du jours selectionné</string>
+
 </resources>

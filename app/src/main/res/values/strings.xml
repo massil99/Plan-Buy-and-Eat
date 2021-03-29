@@ -43,4 +43,5 @@
     <string name="liste_du">List on</string>
     <string name="username_exist">Username already exist</string>
     <string name="no_meals">There no meal in the meal list</string>
+    <string name="selected_meals">Meals on the selected day below</string>
 </resources>

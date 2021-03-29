@@ -17,7 +17,7 @@ public class BasicMapDisplayer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_map_displayer);
 
-        // Afficher le fragment de la carte 
+        // Afficher le fragment de la carte
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment mapFragment = new Map();
         fragmentManager.beginTransaction().replace(R.id.fragment_bmapd, mapFragment).commit();

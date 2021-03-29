@@ -160,7 +160,8 @@ public class Map extends Fragment {
                 ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Location location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 // Récuperation de la postion de l'appareil
-                currentPos = new LatLng(location.getLatitude(), location.getLongitude());
+                if(location != null)
+                    currentPos = new LatLng(location.getLatitude(), location.getLongitude());
             }else {
                 // Demander les permissions si non attribuées
                 requestPermissions(

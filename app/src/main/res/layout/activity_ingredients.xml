@@ -4,10 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Repertoire.Repertoire">
+
+    <ImageButton
+        android:id="@+id/btn_back_from_ingredients"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:background="@drawable/rectangle"
+        android:src="@drawable/ic_arrow_back"/>
     <TextView
         android:id="@+id/text_nomPlat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btn_back_from_ingredients"
         style="@style/Theme.PlanBuyAndEat.activityTitle"
         android:layout_margin="10dp"
         android:layout_marginBottom="60dp"

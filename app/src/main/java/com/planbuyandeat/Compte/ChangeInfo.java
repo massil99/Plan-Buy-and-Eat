@@ -3,14 +3,17 @@ package com.planbuyandeat.Compte;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.Identification.Login;
 import com.planbuyandeat.SQLite.DAOs.UsersSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
@@ -49,6 +52,11 @@ public class ChangeInfo extends AppCompatActivity {
     private Button valider;
 
     /**
+     * Button de retoure
+     */
+    private ImageButton back;
+
+    /**
      * Gesionnaire d'utilsiateur
      */
     private UsersSQLiteDAO userdao;
@@ -76,6 +84,7 @@ public class ChangeInfo extends AppCompatActivity {
         username = findViewById(R.id.editview_changeUsername);
         pass = findViewById(R.id.editview_passCheckBeforeChange);
         valider = findViewById(R.id.btn_chagneValidateInfo);
+        back = findViewById(R.id.btn_back_from_change_info);
 
         userdao = new UsersSQLiteDAO(this);
         /**
@@ -94,8 +103,6 @@ public class ChangeInfo extends AppCompatActivity {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout l = findViewById(R.id.layout_changeinfo);
-
                 // tester les champs vide
                 if(!nom.getText().toString().equals("")       &&
                    !prenom.getText().toString().equals("")   &&
@@ -111,13 +118,21 @@ public class ChangeInfo extends AppCompatActivity {
                         userdao.open();
                         userdao.update(user);
                         userdao.close();
-                        Snackbar.make(l, R.string.changesApplyed, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, R.string.changesApplyed, Snackbar.LENGTH_LONG).show();
                     }else {
-                        Snackbar.make(l, R.string.wrong_pass, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, R.string.wrong_pass, Snackbar.LENGTH_LONG).show();
                     }
                 }else
-                    Snackbar.make(l, R.string.empty_fields, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(v, R.string.empty_fields, Snackbar.LENGTH_LONG).show();
 
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class );
+                startActivity(i);
             }
         });
     }

@@ -3,6 +3,7 @@ package com.planbuyandeat.Planning;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
@@ -354,12 +355,17 @@ public class Planning extends Fragment {
                                 pjdao.open();
                                 platdao.open();
                                 List<PlatJour> platJourList = pjdao.getAllPlatOfJour(date);
-                                affichagePlats.removeAllViews();
+                                if(platJourList.size() != 0)
+                                    affichagePlats.removeAllViews();
                                 // Affichage des plat pour la date selectionnée
                                 for(PlatJour p : platJourList){
-                                    TextView t = new TextView(affichagePlats.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_mediumText);
+                                    LinearLayout l = new LinearLayout(affichagePlats.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_plat_card);
+                                    TextView t = new TextView(l.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_mediumText);
                                     t.setText(platdao.get(p.getPlatid()).getNom().toUpperCase());
-                                    affichagePlats.addView(t);
+                                    t.setTextColor(0xffffffff);
+
+                                    l.addView(t);
+                                    affichagePlats.addView(l);
                                 }
                                 platdao.close();
                                 pjdao.close();
@@ -477,13 +483,16 @@ public class Planning extends Fragment {
                  */
                 jourdao.deleteAll();
                 pjdao.deleteAll();
+                userdao.open();
                 /**
                  * Récuperation des information de géneration de planning associées a cet utilisateur
                  */
+
+                user = userdao.get(user.getId());
                 int nbPJ = user.getNbPlatjour();
                 CustomDate pday = new CustomDate();
                 pday.setDate(user.getDateDebut());
-
+                userdao.close();
                 /**
                  * Generation du planning jour par jour, les plats d'un jours sont remplis aléatoirement
                  * à partir de l'ensemble des plats associés à un utilisateur. La géneration s'arrêt un
@@ -541,14 +550,17 @@ public class Planning extends Fragment {
                     if(pjs.size() > 0){
                         ListeDesCourses ldc = new ListeDesCourses();
                         ldc.setUserid(user.getId());
-                        ldc.getDate().setId(jourdao.get(dateDebut.toString()).getId());
-                        for (PlatJour platJour : pjs){
-                            List<Ingredient> ings = ingredientsSQLiteDAO.getAllPlatIngredients(platJour.getPlatid());
-                            for(Ingredient ing : ings){
-                                LDCItem ldcItem = new LDCItem();
-                                ldcItem.setId(ing.getId());
-                                ldcItem.setNom(ing.getNom());
-                                ldc.addItem(ldcItem);
+                        CustomDate tempDt = jourdao.get(dateDebut.toString());
+                        if(tempDt != null) {
+                            ldc.getDate().setId(tempDt.getId());
+                            for (PlatJour platJour : pjs) {
+                                List<Ingredient> ings = ingredientsSQLiteDAO.getAllPlatIngredients(platJour.getPlatid());
+                                for (Ingredient ing : ings) {
+                                    LDCItem ldcItem = new LDCItem();
+                                    ldcItem.setId(ing.getId());
+                                    ldcItem.setNom(ing.getNom());
+                                    ldc.addItem(ldcItem);
+                                }
                             }
                         }
                        ldcdao.create(ldc);

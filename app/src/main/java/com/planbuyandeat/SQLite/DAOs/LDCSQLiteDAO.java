@@ -92,8 +92,10 @@ public class LDCSQLiteDAO implements DAO<ListeDesCourses> {
                     DBHelper.COLUMN_JOUR_ID +"="+ o.getDate().getId();
 
             Cursor dayCursor = database.rawQuery(sql, null);
-            dayCursor.moveToFirst();
-            o.setDate(cursorToJour(dayCursor));
+            if(dayCursor.getCount() > 0) {
+                dayCursor.moveToFirst();
+                o.setDate(cursorToJour(dayCursor));
+            }
             dayCursor.close();
 
             return o;

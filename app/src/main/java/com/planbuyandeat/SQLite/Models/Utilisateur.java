@@ -50,11 +50,7 @@ public class Utilisateur {
      */
     private int period;
 
-    public Utilisateur() {
-        nbPlatjour = 2;
-        period = 7;
-        dateDebut = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-    }
+    public Utilisateur() {}
 
     /** Getters et Setters **/
     public long getId() {

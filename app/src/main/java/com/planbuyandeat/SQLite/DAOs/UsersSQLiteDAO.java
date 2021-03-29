@@ -10,8 +10,11 @@ import com.planbuyandeat.SQLite.DBHelper;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 import com.planbuyandeat.utils.MD5HashFunction;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Intremédiaire enter l'application et la base de de données pour la gestion des
@@ -72,9 +75,9 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
             values.put(DBHelper.COLUMN_USERS_PRENOM, o.getPrenom());
             values.put(DBHelper.COLUMN_USERS_USERNAME, o.getUsername());
             values.put(DBHelper.COLUMN_USERS_MDP, o.getMdp());
-            values.put(DBHelper.COLUMN_USERS_NBPlatJours, o.getNbPlatjour());
-            values.put(DBHelper.COLUMN_USERS_PERIODE, o.getPeriod());
-            values.put(DBHelper.COLUMN_USERS_DateDebut, o.getDateDebut());
+            values.put(DBHelper.COLUMN_USERS_NBPlatJours, 2);
+            values.put(DBHelper.COLUMN_USERS_PERIODE, 7);
+            values.put(DBHelper.COLUMN_USERS_DateDebut, new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
 
             /**
              * Récuperation de l'id du tuple inseré
@@ -117,7 +120,7 @@ public class UsersSQLiteDAO implements DAO<Utilisateur> {
         Cursor cursor = database.query(DBHelper.TABLE_USERS , allColumns,
                 DBHelper.COLUMN_USERS_USERNAME +" = '"+ o.getUsername() +"'",
                 null, null, null, null);
-        if(cursor.getCount() == 0) {
+        if(cursor.getCount() != 0) {
             long id = o.getId();
 
             ContentValues values = new ContentValues();

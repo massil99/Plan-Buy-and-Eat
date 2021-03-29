@@ -2,14 +2,18 @@ package com.planbuyandeat.Repertoire.Ingredients;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.R;
+import com.planbuyandeat.Repertoire.Repertoire;
 import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.PlatsSQLiteDAO;
 import com.planbuyandeat.SQLite.Models.Ingredient;
@@ -48,6 +52,11 @@ public class Ingredients extends AppCompatActivity {
      */
     private IngredientsSQLiteDAO ingdao;
 
+    /**
+     * Button de retoure vers l'activité applante
+     */
+    private ImageButton back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +68,7 @@ public class Ingredients extends AppCompatActivity {
         ingredients = findViewById(R.id.list_ingredients);
         nomIng = findViewById(R.id.editview_nomIngredient);
         ajoutIng = findViewById(R.id.btn_ajoutIngredient);
-
+        back = findViewById(R.id.btn_back_from_ingredients);
         /* TODO Ajout de la suppression d'un element avec un swipe à gauche*/
 
         /**
@@ -118,6 +127,14 @@ public class Ingredients extends AppCompatActivity {
                     }
                     ingdao.close();
                 }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), Repertoire.class);
+                startActivity(i);
             }
         });
     }

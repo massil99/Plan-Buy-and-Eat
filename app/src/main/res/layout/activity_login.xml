@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/editview_nomUtilisateur"
+                android:drawableLeft="@drawable/ic_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -48,6 +49,7 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/editview_mdp"
+                android:drawableLeft="@drawable/ic_lock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>

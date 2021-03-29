@@ -3,16 +3,21 @@ package com.planbuyandeat.ListesDesCourses.LDCView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.Identification.Login;
 import com.planbuyandeat.ListesDesCourses.ListesDesCourcesFragment;
 import com.planbuyandeat.R;
+import com.planbuyandeat.Repertoire.Repertoire;
 import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.LDCSQLiteDAO;
 import com.planbuyandeat.SQLite.DAOs.PlatJourSQLiteDAO;
@@ -41,6 +46,11 @@ public class LDCItems extends AppCompatActivity {
      */
     private TextView dateLDC;
     private TextView dateLDC_start;
+
+    /**
+     * Button de retoure vers l'activité applante
+     */
+    private ImageButton back;
 
     /**
      * Fichier de la session utilisateur
@@ -107,5 +117,14 @@ public class LDCItems extends AppCompatActivity {
         CustomDate dateDebutP = listeDesCourses.getDate();
         dateDebutP.addDays(-1 * user.getPeriod() + 1);
         dateLDC_start.setText(dateDebutP.toString());
+
+        back = findViewById(R.id.btn_back_from_ldcitems);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class);
+                startActivity(i);
+            }
+        });
     }
 }
