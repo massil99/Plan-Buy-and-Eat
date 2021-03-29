@@ -21,10 +21,20 @@
             android:layout_height="wrap_content"
             />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_remove_plat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_cross"
+        style="@style/Theme.PlanBuyAndEat.RemoveButton"
+        android:layout_weight="1"/>
     <ImageButton
         android:id="@+id/btn_ingredients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:src="@drawable/ic_right_arrow"
         style="@style/Theme.PlanBuyAndEat.RightArrowButton"
         android:layout_weight="1"/>

@@ -37,6 +37,9 @@
         <item name="android:paddingBottom">5dp</item>
         <item name="android:background">?attr/colorPrimary</item>
     </style>
+    <style name="Theme.PlanBuyAndEat.RemoveButton" parent="Theme.PlanBuyAndEat.RightArrowButton">
+        <item name="android:background">#CD452D</item>
+    </style>
 
     <style name="Theme.PlanBuyAndEat.XLargeTexti" parent="TextAppearance.AppCompat.Large.Inverse">
         <item name="android:textSize">50sp</item>

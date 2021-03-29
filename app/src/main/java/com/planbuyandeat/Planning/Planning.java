@@ -355,17 +355,21 @@ public class Planning extends Fragment {
                                 pjdao.open();
                                 platdao.open();
                                 List<PlatJour> platJourList = pjdao.getAllPlatOfJour(date);
-                                if(platJourList.size() != 0)
-                                    affichagePlats.removeAllViews();
-                                // Affichage des plat pour la date selectionnée
-                                for(PlatJour p : platJourList){
-                                    LinearLayout l = new LinearLayout(affichagePlats.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_plat_card);
-                                    TextView t = new TextView(l.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_mediumText);
-                                    t.setText(platdao.get(p.getPlatid()).getNom().toUpperCase());
-                                    t.setTextColor(0xffffffff);
+                                if(platJourList != null){
+                                    if(platJourList.size() != 0)
+                                        affichagePlats.removeAllViews();
+                                    // Affichage des plat pour la date selectionnée
+                                    for(PlatJour p : platJourList){
+                                        LinearLayout l = new LinearLayout(affichagePlats.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_plat_card);
+                                        TextView t = new TextView(l.getContext(), null, 0, R.style.Theme_PlanBuyAndEat_mediumText);
+                                        Plat temp = platdao.get(p.getPlatid());
+                                        if(temp != null)
+                                            t.setText(temp.getNom().toUpperCase());
+                                        t.setTextColor(0xffffffff);
 
-                                    l.addView(t);
-                                    affichagePlats.addView(l);
+                                        l.addView(t);
+                                        affichagePlats.addView(l);
+                                    }
                                 }
                                 platdao.close();
                                 pjdao.close();

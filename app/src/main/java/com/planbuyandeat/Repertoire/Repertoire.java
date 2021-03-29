@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.planbuyandeat.R;
 import com.planbuyandeat.SQLite.Models.Utilisateur;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activité permetant de gérer le répertoire des plats par l'utilisateur
@@ -92,8 +90,6 @@ public class Repertoire extends Fragment {
          * Définir PlatAdapteur comme l'adaptateur de la liste des plats
          */
         plats.setAdapter(platAdapter);
-
-
         /**
          * Récuperation du button d'ajout de plat à la list
          */

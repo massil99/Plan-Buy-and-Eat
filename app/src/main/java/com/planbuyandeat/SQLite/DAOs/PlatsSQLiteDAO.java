@@ -77,6 +77,14 @@ public class PlatsSQLiteDAO implements DAO<Plat> {
     @Override
     public void delete(Plat o) {
         long id = o.getId();
+
+        for (Ingredient ingredient: o.getIngredients()){
+            database.delete(DBHelper.TABLE_PLATJOUR,
+                    DBHelper.COLUMN_PLATJOUR_PLATID +"="+ingredient.getId(), null);
+            database.delete(DBHelper.TABLE_INGREDIENTS,
+                    DBHelper.COLUMN_INGREDIENTS_ID +"="+ingredient.getId(), null);
+        }
+
         database.delete(DBHelper.TABLE_PLATS, DBHelper.COLUMN_PLATS_ID
                 + " = " + id, null);
     }

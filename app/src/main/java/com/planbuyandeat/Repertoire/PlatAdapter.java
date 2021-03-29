@@ -41,6 +41,11 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
     private PlatsSQLiteDAO platdao;
 
     /**
+     * La liste des plats
+     */
+    private ArrayList<Plat> objects;
+
+    /**
      * Initialisation des champ à la création de l'adatptateur
      * @param context
      * @param resource
@@ -51,6 +56,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         this.mContext = context;
         this.mRessource = resource;
         platdao = new PlatsSQLiteDAO(getContext());
+        this.objects = objects;
     }
 
     /**
@@ -89,9 +95,14 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         EditText nomPlat = convertView.findViewById(R.id.editview_nomPlat);
 
         /**
-         * Button permettant de redériger vers la liste des ingrédients
+         * Boutton permettant de redériger vers la liste des ingrédients
          */
-        ImageButton btn = convertView.findViewById(R.id.btn_ingredients);
+        ImageButton btn_ing = convertView.findViewById(R.id.btn_ingredients);
+
+        /**
+         * Boutton de suppression d'un plat
+         */
+        ImageButton remove_btn = convertView.findViewById(R.id.btn_remove_plat);
 
         /**
          * Définitoin du numéro du plat par rapport à sa postion dans la liste
@@ -101,7 +112,7 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
         /**
          * Redirection vers la liste des ingrédient, en passant l'ID du plat séléctionné
          */
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn_ing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long id = plat.getId();
@@ -131,6 +142,22 @@ public class PlatAdapter extends ArrayAdapter<Plat> {
                 }
             }
         });
+
+        /**
+         * Suppression du plat
+         */
+        remove_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Plat selectedPlat = getItem(position);
+                objects.remove(selectedPlat);
+                platdao.open();
+                platdao.delete(selectedPlat);
+                platdao.close();
+                notifyDataSetChanged();
+            }
+        });
+
         return convertView;
     }
 }

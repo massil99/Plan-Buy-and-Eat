@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.planbuyandeat.BottomNavigationBar;
 import com.planbuyandeat.R;
 import com.planbuyandeat.Repertoire.Repertoire;
 import com.planbuyandeat.SQLite.DAOs.IngredientsSQLiteDAO;
@@ -99,6 +99,7 @@ public class Ingredients extends AppCompatActivity {
         IngredientAdapter ingredientAdapter =
                 new IngredientAdapter(this, R.layout.ingredient_item, ings);
         ingredients.setAdapter(ingredientAdapter);
+
 
         /**
          * Ajout d'un ingrédient en cliquant sur le button ajoutIng,
