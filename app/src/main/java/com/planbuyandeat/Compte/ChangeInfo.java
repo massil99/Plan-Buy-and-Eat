@@ -132,6 +132,7 @@ public class ChangeInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), BottomNavigationBar.class );
+                finish();
                 startActivity(i);
             }
         });

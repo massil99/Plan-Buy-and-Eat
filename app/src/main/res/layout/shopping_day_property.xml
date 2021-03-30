@@ -4,13 +4,16 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
-        android:layout_height="60dp"
-        app:cardBackgroundColor="@color/black">
+        android:layout_height="60dp">
+        <FrameLayout
+            android:background="@drawable/shopping_day_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/text_shoppinDtText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:gravity="center"/>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
