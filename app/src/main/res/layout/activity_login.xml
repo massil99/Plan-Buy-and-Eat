@@ -12,12 +12,13 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_weight="0.9">
+
         <ImageView
-            android:src="@mipmap/ic_launcher_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/ic_icon_foreground"/>
         <TextView
             android:text="@string/login"
             android:layout_width="wrap_content"
@@ -31,24 +32,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center">
-            <TextView
-                android:text="@string/nomUtilisateur"
-                style="@style/Theme.PlanBuyAndEat.intputLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/editview_nomUtilisateur"
                 android:drawableLeft="@drawable/ic_account"
+                android:hint="@string/nomUtilisateur"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:text="@string/mdp"
-                style="@style/Theme.PlanBuyAndEat.intputLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"/>
             <EditText
                 android:id="@+id/editview_mdp"
+                android:hint="@string/mdp"
                 android:drawableLeft="@drawable/ic_lock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

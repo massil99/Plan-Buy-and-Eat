@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:gravity="center">
         <ImageView
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@mipmap/ic_icon_foreground"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:elevation="2dp"/>
         <TextView
             android:text="@string/Signup"
             style="@style/Theme.PlanBuyAndEat.activityTitle"
